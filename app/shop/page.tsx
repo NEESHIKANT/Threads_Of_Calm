@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import "../globals.css";
+import { Suspense, useEffect, useState } from "react";
 import { products, type Product, type ProductCategory } from "../data/products";
 
 type CartItem = Product & { quantity: number };
@@ -16,7 +15,7 @@ const categoryOptions: Array<"All" | ProductCategory> = [
   "Key Chains",
 ];
 
-export default function ShopPage() {
+function ShopPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -148,5 +147,13 @@ export default function ShopPage() {
         </div>
       </section>
     </main>
+  );
+}
+
+export default function ShopPage() {
+  return (
+    <Suspense fallback={<main><div style={{ padding: "2rem", textAlign: "center" }}>Loading shop...</div></main>}>
+      <ShopPageContent />
+    </Suspense>
   );
 }

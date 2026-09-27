@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import "./globals.css";
 import { products, type Product } from "./data/products";
 
 type CartItem = Product & { quantity: number };
