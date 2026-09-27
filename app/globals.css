@@ -378,9 +378,37 @@ body {
 }
 @media (max-width: 600px) {
   .announcement span:not(:first-child), .announcement i, .announcement aside { display: none; }
-  .nav { height: 58px; padding: 0 16px; }
-  .links { display: none; }
-  .actions { margin-left: auto; }
+  .nav {
+    height: auto;
+    min-height: 58px;
+    padding: 10px 16px;
+    flex-wrap: wrap;
+    row-gap: 10px;
+  }
+  .brand { flex-shrink: 0; }
+  .links {
+    display: flex;
+    order: 3;
+    width: 100%;
+    gap: 8px;
+    margin: 0;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .links::-webkit-scrollbar { display: none; }
+  .links a {
+    white-space: nowrap;
+    padding: 8px 10px;
+    font-size: 12px;
+    border-radius: 999px;
+  }
+  .links .active {
+    border-bottom: 0;
+    background: rgba(237, 169, 39, 0.12);
+  }
+  .actions { margin-left: auto; gap: 8px; }
   .nav-search { position: fixed; z-index: 30; top: 76px; right: 16px; transform: none; width: min(330px, calc(100vw - 32px)); background: #fffdf7; }
   .whatsapp { padding: 9px 11px; font-size: 10px; }
   .hero { display: block; aspect-ratio: auto; }
@@ -389,14 +417,12 @@ body {
     min-height: 430px;
     padding: 30px 24px 24px;
   }
-  .hero-copy:before {
-    content: none;
-  }
+  .hero-copy:before { content: none; }
   .eyebrow { font-size: 13px; }
   .hero h1 { font-size: 38px; }
   .intro { font-size: 17px; }
   .shop-btn { font-size: 15px; }
-  .promises { gap: 12px; }
+  .promises { gap: 12px; flex-wrap: wrap; }
   .promises small { font-size: 13px; }
   .hero-photo { height: 100%; }
   .hero-photo img { object-position: 58% center; }
