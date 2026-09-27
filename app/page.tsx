@@ -10,6 +10,7 @@ export default function Home() {
 	const [searchOpen, setSearchOpen] = useState(false);
 	const [cartOpen, setCartOpen] = useState(false);
 	const [query, setQuery] = useState("");
+	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 	const featuredProductIds = [
 		"sunshine-fridge-magnet",
 		"blossom-ring-wall-hanging",
@@ -37,7 +38,34 @@ export default function Home() {
 
 	return (
 		<main>
-			<nav className="nav"><a className="brand" href="/"><img src="/logo.png" alt="Threads of Calm logo" /></a><div className="links"><a className="active" href="/">Home</a><a href="/shop">Shop</a><a href="/about">About Us</a><div className="nav-dropdown"><a className="category-trigger" href="/shop" aria-haspopup="true">Categories <span aria-hidden="true">⌄</span></a><div className="category-menu"><a href="/shop?category=Home%20D%C3%A9cor">Home Décor <small>Wall hangings & crochet pots</small></a><a href="/shop?category=Bag%20Charms">Bag Charms <small>Little handmade accessories</small></a><a href="/shop?category=Fridge%20Magnets">Fridge Magnets <small>Cheerful handmade keepsakes</small></a><a href="/shop?category=Key%20Chains">Key Chains <small>Bright daily carry accessories</small></a></div></div><a href="/#contact">Contact</a></div><div className="actions">{searchOpen && <form className="nav-search" onSubmit={(event) => { event.preventDefault(); document.getElementById("collection")?.scrollIntoView({ behavior: "smooth" }); }}><input autoFocus value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search products..." aria-label="Search products"/><button type="button" aria-label="Close search" onClick={() => { setQuery(""); setSearchOpen(false); }}>×</button></form>}<button aria-label="Search" aria-expanded={searchOpen} onClick={() => setSearchOpen((open) => !open)}>⌕</button><button className="cart" aria-label="Cart" aria-expanded={cartOpen} onClick={() => setCartOpen((open) => !open)}>🛒<b>{cartCount}</b></button><a className="whatsapp" href="https://wa.me/+919556029097">◉ &nbsp; Order on WhatsApp</a></div>{cartOpen && <div className="cart-popover"><div className="cart-heading"><strong>Your basket</strong><button aria-label="Close basket" onClick={() => setCartOpen(false)}>×</button></div>{cart.length === 0 ? <p className="cart-empty">Your basket is empty. Add a handmade piece to get started.</p> : <><div className="cart-items">{cart.map((item) => <div className="cart-item" key={item.name}><img src={item.image} alt=""/><div className="cart-item-info"><strong>{item.name}</strong><span>{item.price} each</span><div className="quantity-control"><button aria-label={`Remove one ${item.name}`} onClick={() => changeQuantity(item, -1)}>−</button><span>{item.quantity}</span><button aria-label={`Add one ${item.name}`} onClick={() => changeQuantity(item, 1)}>+</button></div></div><b className="cart-line-total">₹{Number(item.price.replace(/[^\d]/g, "")) * item.quantity}</b></div>)}</div><div className="cart-total"><span>Subtotal</span><strong>₹{cartTotal}</strong></div><a className="cart-checkout" href={`https://wa.me/9556029097?text=${checkoutMessage}`}>Checkout on WhatsApp →</a></>}</div>}</nav>
+			<nav className="nav">
+				<a className="brand" href="/"><img src="/logo.png" alt="Threads of Calm logo" /></a>
+				<button
+					className="mobile-menu-toggle"
+					aria-label="Toggle navigation menu"
+					aria-expanded={mobileMenuOpen}
+					onClick={() => setMobileMenuOpen((open) => !open)}
+				>
+					<span />
+					<span />
+					<span />
+				</button>
+				<div className={`links ${mobileMenuOpen ? "mobile-open" : ""}`}>
+					<a className="active" href="/">Home</a>
+					<a href="/shop">Shop</a>
+					<a href="/about">About Us</a>
+					<div className="nav-dropdown">
+						<a className="category-trigger" href="/shop" aria-haspopup="true">Categories <span aria-hidden="true">⌄</span></a>
+						<div className="category-menu">
+							<a href="/shop?category=Home%20D%C3%A9cor">Home Décor <small>Wall hangings & crochet pots</small></a>
+							<a href="/shop?category=Bag%20Charms">Bag Charms <small>Little handmade accessories</small></a>
+							<a href="/shop?category=Fridge%20Magnets">Fridge Magnets <small>Cheerful handmade keepsakes</small></a>
+							<a href="/shop?category=Key%20Chains">Key Chains <small>Bright daily carry accessories</small></a>
+						</div>
+					</div>
+					<a href="/#contact">Contact</a>
+				</div>
+				<div className="actions">{searchOpen && <form className="nav-search" onSubmit={(event) => { event.preventDefault(); document.getElementById("collection")?.scrollIntoView({ behavior: "smooth" }); }}><input autoFocus value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search products..." aria-label="Search products"/><button type="button" aria-label="Close search" onClick={() => { setQuery(""); setSearchOpen(false); }}>×</button></form>}<button aria-label="Search" aria-expanded={searchOpen} onClick={() => setSearchOpen((open) => !open)}>⌕</button><button className="cart" aria-label="Cart" aria-expanded={cartOpen} onClick={() => setCartOpen((open) => !open)}>🛒<b>{cartCount}</b></button><a className="whatsapp" href="https://wa.me/+919556029097">◉ &nbsp; Order on WhatsApp</a></div>{cartOpen && <div className="cart-popover"><div className="cart-heading"><strong>Your basket</strong><button aria-label="Close basket" onClick={() => setCartOpen(false)}>×</button></div>{cart.length === 0 ? <p className="cart-empty">Your basket is empty. Add a handmade piece to get started.</p> : <><div className="cart-items">{cart.map((item) => <div className="cart-item" key={item.name}><img src={item.image} alt=""/><div className="cart-item-info"><strong>{item.name}</strong><span>{item.price} each</span><div className="quantity-control"><button aria-label={`Remove one ${item.name}`} onClick={() => changeQuantity(item, -1)}>−</button><span>{item.quantity}</span><button aria-label={`Add one ${item.name}`} onClick={() => changeQuantity(item, 1)}>+</button></div></div><b className="cart-line-total">₹{Number(item.price.replace(/[^\d]/g, "")) * item.quantity}</b></div>)}</div><div className="cart-total"><span>Subtotal</span><strong>₹{cartTotal}</strong></div><a className="cart-checkout" href={`https://wa.me/9556029097?text=${checkoutMessage}`}>Checkout on WhatsApp →</a></>}</div>}</nav>
 
 			<section className="hero" id="home"><div className="hero-copy"><p className="eyebrow">HANDCRAFTED CROCHET CREATIONS</p><h1>Small Handmade<br />Things for a<br /><em>Happier Everyday</em> <span>〰</span></h1><p className="intro">Crochet gifts, décor and accessories<br />made with love, one stitch at a time.</p><a className="shop-btn" href="#collection">Shop Our Collection &nbsp; →</a><div className="promises"><span>♡ <small>Handmade<br />with Love</small></span><span>🎁 <small>Perfect<br />for Gifting</small></span><span>♧ <small>Pan India<br />Shipping</small></span></div></div><div className="hero-photo leaves-photo"><img src="/product_images/banner.png" alt="Threads of Calm crochet banner" /></div></section>
 
