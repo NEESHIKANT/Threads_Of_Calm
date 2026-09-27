@@ -1,6 +1,5 @@
 import Link from "next/link";
 import "../globals.css";
-import makerPhoto from "../../product_images/ME.jpg";
 
 export default function AboutPage() {
   return (
@@ -47,7 +46,7 @@ export default function AboutPage() {
           <Link className="shop-btn" href="/#collection">Explore our collection &nbsp; →</Link>
         </div>
         <figure className="about-photo">
-          <img src={makerPhoto.src} alt="Sandhya, the maker behind My Threads of Calm" />
+          <img src="/product_images/ME.jpg" alt="Sandhya, the maker behind My Threads of Calm" />
           <figcaption>The maker behind My Threads of Calm</figcaption>
         </figure>
       </section>
