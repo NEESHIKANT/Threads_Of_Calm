@@ -41,11 +41,19 @@ body {
   z-index: 10;
 }
 .brand img { width: 52px; height: 52px; object-fit: contain; clip-path: circle(46%); }
-.links { display: flex; gap: 32px; margin: 0 auto 0 0; font: 16px 'Libre Baskerville', serif; }
-.links a { color: var(--ink); text-decoration: none; padding: 25px 0; }
+.links { display: flex; align-items: center; gap: 32px; margin: 0 auto 0 0; font: 16px 'Libre Baskerville', serif; }
+.links a, .nav-dropdown > .category-trigger {
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+  line-height: 1;
+  color: var(--ink);
+  text-decoration: none;
+  padding: 25px 0;
+}
 .links .active { border-bottom: 2px solid #e9a52a; }
-.nav-dropdown { position: relative; z-index: 11; display: flex; align-items: stretch; }
-.category-trigger { display: inline-flex; align-items: center; gap: 7px; }
+.nav-dropdown { position: relative; z-index: 11; display: flex; align-items: center; height: 100%; }
+.category-trigger { display: inline-flex; align-items: center; gap: 7px; height: 100%; }
 .category-trigger span { color: #9b712e; font: 16px 'DM Sans', sans-serif; transition: transform .2s ease; }
 .nav-dropdown:hover .category-trigger span,
 .nav-dropdown:focus-within .category-trigger span { transform: rotate(180deg); }
@@ -409,6 +417,7 @@ body {
     right: 12px;
     display: none;
     flex-direction: column;
+    align-items: stretch;
     gap: 0;
     padding: 8px;
     background: rgba(255, 253, 247, 0.98);
@@ -421,10 +430,15 @@ body {
   .links.mobile-open { display: flex; }
 
   .links a {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
     padding: 12px 14px;
     font-size: 13px;
     border-radius: 10px;
     text-decoration: none;
+    text-align: left;
   }
 
   .links .active {
@@ -441,12 +455,21 @@ body {
     width: 100%;
     padding: 12px 14px;
     border-radius: 10px;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+    width: 100%;
+  }
+
+  .nav-dropdown .category-trigger span {
+    display: none;
   }
 
   .category-menu {
     position: static;
     width: 100%;
     margin-top: 6px;
+    padding: 8px;
     box-shadow: none;
     background: #fffef9;
     border: 1px solid #f0e3cb;
@@ -454,6 +477,22 @@ body {
     opacity: 1;
     visibility: visible;
     display: none;
+    gap: 6px;
+  }
+
+  .category-menu a {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 12px;
+    font-size: 12px;
+    border-radius: 8px;
+    text-align: left;
+  }
+
+  .category-menu small {
+    font-size: 10px;
+    line-height: 1.4;
   }
 
   .nav-dropdown:hover .category-menu,
