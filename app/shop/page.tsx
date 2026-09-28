@@ -21,8 +21,27 @@ function ShopPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [cart, setCart] = useState<CartItem[]>([]);
+  const [hasHydratedCart, setHasHydratedCart] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<"All" | ProductCategory>("All");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const savedCart = localStorage.getItem("threads-of-calm-cart");
+      setCart(savedCart ? JSON.parse(savedCart) : []);
+    } catch {
+      localStorage.removeItem("threads-of-calm-cart");
+      setCart([]);
+    } finally {
+      setHasHydratedCart(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!hasHydratedCart || typeof window === "undefined") return;
+    localStorage.setItem("threads-of-calm-cart", JSON.stringify(cart));
+  }, [cart, hasHydratedCart]);
 
   useEffect(() => {
     const urlCategory = searchParams.get("category");
@@ -60,7 +79,7 @@ function ShopPageContent() {
         .filter((item) => item.quantity > 0);
     });
   };
-  const checkoutMessage = encodeURIComponent(`Hi! I’d like to order:\n${cart.map((item) => `${item.quantity} × ${item.name} (${item.price})`).join("\n")}\nTotal: ₹${cartTotal}`);
+  const checkoutMessage = encodeURIComponent(`Hi! I’d like to order:\n${cart.map((item) => `${item.quantity} × ${item.name} (${item.price})`).join("\n")}`);
 
   return (
     <main>
@@ -97,7 +116,7 @@ function ShopPageContent() {
         </div>
         <div className="actions">
           <button className="cart" aria-label="Cart" aria-expanded={cartOpen} onClick={() => setCartOpen((open) => !open)}>🛒<b>{cartCount}</b></button>
-          <Link className="whatsapp" href="https://wa.me/+919040710818" onClick={() => setMobileMenuOpen(false)}>◉ &nbsp; Order on WhatsApp</Link>
+          <Link className="whatsapp" href="https://wa.me/9040710818?text=Hi%20Sandhya%2C%20I%20want%20to%20know%20more%20about%20your%20products%20and%20pricing.%20Can%20you%20please%20help%20me%3F" onClick={() => setMobileMenuOpen(false)}>◉ &nbsp; Ask on WhatsApp</Link>
         </div>
         {cartOpen && (
           <div className="cart-popover">

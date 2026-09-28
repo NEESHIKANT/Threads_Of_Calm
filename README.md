@@ -36,3 +36,7 @@ npm run start
 ## Notes
 
 This project is ready to be uploaded to GitHub and connected to Vercel for public hosting.
+
+git add .
+git commit -m "cart and whatsapp updates"
+git push origin main

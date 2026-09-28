@@ -40,7 +40,7 @@ export default function AboutPage() {
           <Link href="/#contact" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
         </div>
         <div className="actions">
-          <Link className="whatsapp" href="https://wa.me/+919040710818" onClick={() => setMobileMenuOpen(false)}>◉ &nbsp; Order on WhatsApp</Link>
+          <Link className="whatsapp" href="https://wa.me/9040710818?text=Hi%20Sandhya%2C%20I%20want%20to%20know%20more%20about%20your%20products%20and%20pricing.%20Can%20you%20please%20help%20me%3F" onClick={() => setMobileMenuOpen(false)}>◉ &nbsp; Ask on WhatsApp</Link>
         </div>
       </nav>
 
