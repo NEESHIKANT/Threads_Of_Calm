@@ -80,7 +80,7 @@ function ShopPageContent() {
         </div>
         <div className="actions">
           <button className="cart" aria-label="Cart" aria-expanded={cartOpen} onClick={() => setCartOpen((open) => !open)}>🛒<b>{cartCount}</b></button>
-          <Link className="whatsapp" href="https://wa.me/+919556029097">◉ &nbsp; Order on WhatsApp</Link>
+          <Link className="whatsapp" href="https://wa.me/+919040710818">◉ &nbsp; Order on WhatsApp</Link>
         </div>
         {cartOpen && (
           <div className="cart-popover">
@@ -94,7 +94,7 @@ function ShopPageContent() {
                 <b className="cart-line-total">₹{Number(item.price.replace(/[^\d]/g, "")) * item.quantity}</b>
               </div>)}</div>
               <div className="cart-total"><span>Subtotal</span><strong>₹{cartTotal}</strong></div>
-              <a className="cart-checkout" href={`https://wa.me/9556029097?text=${checkoutMessage}`}>Checkout on WhatsApp →</a>
+              <a className="cart-checkout" href={`https://wa.me/9040710818?text=${checkoutMessage}`}>Checkout on WhatsApp →</a>
             </>}
           </div>
         )}

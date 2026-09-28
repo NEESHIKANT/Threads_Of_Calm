@@ -23,7 +23,7 @@ export default function AboutPage() {
           <Link href="/#contact">Contact</Link>
         </div>
         <div className="actions">
-          <Link className="whatsapp" href="https://wa.me/+919556029097">◉ &nbsp; Order on WhatsApp</Link>
+          <Link className="whatsapp" href="https://wa.me/+919040710818">◉ &nbsp; Order on WhatsApp</Link>
         </div>
       </nav>
 
