@@ -1,29 +1,42 @@
 import Link from "next/link";
+import { useState } from "react";
 
 export default function AboutPage() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
     <main>
       <nav className="nav">
-        <Link className="brand" href="/" aria-label="Threads of Calm home">
+        <Link className="brand" href="/" aria-label="Threads of Calm home" onClick={() => setMobileMenuOpen(false)}>
           <img src="/logo.png" alt="Threads of Calm logo" />
         </Link>
-        <div className="links">
-          <Link href="/">Home</Link>
-          <Link href="/shop">Shop</Link>
-          <Link className="active" href="/about">About Us</Link>
+        <button
+          className="mobile-menu-toggle"
+          aria-label="Toggle navigation menu"
+          aria-expanded={mobileMenuOpen}
+          onClick={() => setMobileMenuOpen((open) => !open)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+        <div className={`links ${mobileMenuOpen ? "mobile-open" : ""}`}>
+          <Link href="/" onClick={() => setMobileMenuOpen(false)}>Home</Link>
+          <Link href="/shop" onClick={() => setMobileMenuOpen(false)}>Shop</Link>
+          <Link className="active" href="/about" onClick={() => setMobileMenuOpen(false)}>About Us</Link>
           <div className="nav-dropdown">
-            <Link className="category-trigger" href="/shop" aria-haspopup="true">Categories <span aria-hidden="true">⌄</span></Link>
+            <Link className="category-trigger" href="/shop" aria-haspopup="true" onClick={() => setMobileMenuOpen(false)}>Categories <span aria-hidden="true">⌄</span></Link>
             <div className="category-menu">
-              <Link href="/shop?category=Home%20D%C3%A9cor">Home Décor <small>Wall hangings & crochet pots</small></Link>
-              <Link href="/shop?category=Bag%20Charms">Bag Charms <small>Little handmade accessories</small></Link>
-              <Link href="/shop?category=Fridge%20Magnets">Fridge Magnets <small>Cheerful handmade keepsakes</small></Link>
-              <Link href="/shop?category=Key%20Chains">Key Chains <small>Bright daily carry accessories</small></Link>
+              <Link href="/shop?category=Home%20D%C3%A9cor" onClick={() => setMobileMenuOpen(false)}>Home Décor <small>Wall hangings & crochet pots</small></Link>
+              <Link href="/shop?category=Bag%20Charms" onClick={() => setMobileMenuOpen(false)}>Bag Charms <small>Little handmade accessories</small></Link>
+              <Link href="/shop?category=Fridge%20Magnets" onClick={() => setMobileMenuOpen(false)}>Fridge Magnets <small>Cheerful handmade keepsakes</small></Link>
+              <Link href="/shop?category=Key%20Chains" onClick={() => setMobileMenuOpen(false)}>Key Chains <small>Bright daily carry accessories</small></Link>
             </div>
           </div>
-          <Link href="/#contact">Contact</Link>
+          <Link href="/#contact" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
         </div>
         <div className="actions">
-          <Link className="whatsapp" href="https://wa.me/+919040710818">◉ &nbsp; Order on WhatsApp</Link>
+          <Link className="whatsapp" href="https://wa.me/+919040710818" onClick={() => setMobileMenuOpen(false)}>◉ &nbsp; Order on WhatsApp</Link>
         </div>
       </nav>
 

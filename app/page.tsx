@@ -51,19 +51,19 @@ export default function Home() {
 					<span />
 				</button>
 				<div className={`links ${mobileMenuOpen ? "mobile-open" : ""}`}>
-					<a className="active" href="/">Home</a>
-					<a href="/shop">Shop</a>
-					<a href="/about">About Us</a>
+					<a className="active" href="/" onClick={() => setMobileMenuOpen(false)}>Home</a>
+					<a href="/shop" onClick={() => setMobileMenuOpen(false)}>Shop</a>
+					<a href="/about" onClick={() => setMobileMenuOpen(false)}>About Us</a>
 					<div className="nav-dropdown">
-						<a className="category-trigger" href="/shop" aria-haspopup="true">Categories <span aria-hidden="true">⌄</span></a>
+						<a className="category-trigger" href="/shop" aria-haspopup="true" onClick={() => setMobileMenuOpen(false)}>Categories <span aria-hidden="true">⌄</span></a>
 						<div className="category-menu">
-							<a href="/shop?category=Home%20D%C3%A9cor">Home Décor <small>Wall hangings & crochet pots</small></a>
-							<a href="/shop?category=Bag%20Charms">Bag Charms <small>Little handmade accessories</small></a>
-							<a href="/shop?category=Fridge%20Magnets">Fridge Magnets <small>Cheerful handmade keepsakes</small></a>
-							<a href="/shop?category=Key%20Chains">Key Chains <small>Bright daily carry accessories</small></a>
+							<a href="/shop?category=Home%20D%C3%A9cor" onClick={() => setMobileMenuOpen(false)}>Home Décor <small>Wall hangings & crochet pots</small></a>
+							<a href="/shop?category=Bag%20Charms" onClick={() => setMobileMenuOpen(false)}>Bag Charms <small>Little handmade accessories</small></a>
+							<a href="/shop?category=Fridge%20Magnets" onClick={() => setMobileMenuOpen(false)}>Fridge Magnets <small>Cheerful handmade keepsakes</small></a>
+							<a href="/shop?category=Key%20Chains" onClick={() => setMobileMenuOpen(false)}>Key Chains <small>Bright daily carry accessories</small></a>
 						</div>
 					</div>
-					<a href="/#contact">Contact</a>
+					<a href="/#contact" onClick={() => setMobileMenuOpen(false)}>Contact</a>
 				</div>
 				<div className="actions">{searchOpen && <form className="nav-search" onSubmit={(event) => { event.preventDefault(); document.getElementById("collection")?.scrollIntoView({ behavior: "smooth" }); }}><input autoFocus value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search products..." aria-label="Search products"/><button type="button" aria-label="Close search" onClick={() => { setQuery(""); setSearchOpen(false); }}>×</button></form>}<button aria-label="Search" aria-expanded={searchOpen} onClick={() => setSearchOpen((open) => !open)}>⌕</button><button className="cart" aria-label="Cart" aria-expanded={cartOpen} onClick={() => setCartOpen((open) => !open)}>🛒<b>{cartCount}</b></button><a className="whatsapp" href="https://wa.me/+919040710818">◉ &nbsp; Order on WhatsApp</a></div>{cartOpen && <div className="cart-popover"><div className="cart-heading"><strong>Your basket</strong><button aria-label="Close basket" onClick={() => setCartOpen(false)}>×</button></div>{cart.length === 0 ? <p className="cart-empty">Your basket is empty. Add a handmade piece to get started.</p> : <><div className="cart-items">{cart.map((item) => <div className="cart-item" key={item.name}><img src={item.image} alt=""/><div className="cart-item-info"><strong>{item.name}</strong><span>{item.price} each</span><div className="quantity-control"><button aria-label={`Remove one ${item.name}`} onClick={() => changeQuantity(item, -1)}>−</button><span>{item.quantity}</span><button aria-label={`Add one ${item.name}`} onClick={() => changeQuantity(item, 1)}>+</button></div></div><b className="cart-line-total">₹{Number(item.price.replace(/[^\d]/g, "")) * item.quantity}</b></div>)}</div><div className="cart-total"><span>Subtotal</span><strong>₹{cartTotal}</strong></div><a className="cart-checkout" href={`https://wa.me/9040710818?text=${checkoutMessage}`}>Checkout on WhatsApp →</a></>}</div>}</nav>
 
