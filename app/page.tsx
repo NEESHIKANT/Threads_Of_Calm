@@ -61,6 +61,8 @@ export default function Home() {
 							<a href="/shop?category=Bag%20Charms" onClick={() => setMobileMenuOpen(false)}>Bag Charms <small>Little handmade accessories</small></a>
 							<a href="/shop?category=Fridge%20Magnets" onClick={() => setMobileMenuOpen(false)}>Fridge Magnets <small>Cheerful handmade keepsakes</small></a>
 							<a href="/shop?category=Key%20Chains" onClick={() => setMobileMenuOpen(false)}>Key Chains <small>Bright daily carry accessories</small></a>
+							<a href="/shop?category=Car%20Charms" onClick={() => setMobileMenuOpen(false)}>Car Charms <small>Bright accessories for your ride</small></a>
+							<a href="/shop?category=Pet%20Products" onClick={() => setMobileMenuOpen(false)}>Pet Products <small>Cozy handmade pieces for pets</small></a>
 						</div>
 					</div>
 					<a href="/#contact" onClick={() => setMobileMenuOpen(false)}>Contact</a>
@@ -75,7 +77,7 @@ export default function Home() {
 				<p className="eyebrow">WE’D LOVE TO HEAR FROM YOU</p>
 				<h2>Get in touch <span>〰</span></h2>
 				<div className="contact-options">
-					<a href="https://mail.google.com/mail/?view=cm&fs=1&to=nandaneeshikant%40gmail.com" target="_blank" rel="noreferrer"><span className="contact-icon email-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3.5 5.5h17v13h-17z"/><path d="m4 7 8 6 8-6"/></svg></span><small>Email</small><strong className="contact-email">nandaneeshikant@gmail.com</strong></a>
+					<a href="https://mail.google.com/mail/?view=cm&fs=1&to=threadsofcalm1%40gmail.com" target="_blank" rel="noreferrer"><span className="contact-icon email-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3.5 5.5h17v13h-17z"/><path d="m4 7 8 6 8-6"/></svg></span><small>Email</small><strong className="contact-email">threadsofcalm1@gmail.com</strong></a>
 					<a href="tel:+919040710818"><span className="contact-icon phone-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7.1 3.8 9.8 7l-1.9 2.1a15.2 15.2 0 0 0 7 7l2.1-1.9 3.2 2.7-.9 3.4c-.2.7-.9 1.2-1.7 1.1C9.3 20.3 3.7 14.7 2.6 6.4c-.1-.8.4-1.5 1.1-1.7z"/></svg></span><small>Phone / WhatsApp</small><strong>+91 90407 10818</strong></a>
 					<a href="https://www.instagram.com/my_threads_of_calm?stkn=MTR3dHVqanI5bnNqdA==" target="_blank" rel="noreferrer"><span className="social-icon instagram-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><defs><linearGradient id="instagram-gradient" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stopColor="#ffb900"/><stop offset="48%" stopColor="#ff0169"/><stop offset="100%" stopColor="#7638fa"/></linearGradient></defs><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="url(#instagram-gradient)" strokeWidth="2.4"/><circle cx="12" cy="12" r="4.1" fill="none" stroke="url(#instagram-gradient)" strokeWidth="2.2"/><circle cx="17.6" cy="6.7" r="1.35" fill="#ff3864"/></svg></span><small>Instagram</small><strong>@my_threads_of_calm</strong></a>
 					<a href="https://www.facebook.com/" target="_blank" rel="noreferrer"><span className="social-icon facebook-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M13.5 21v-8.2h2.8l.4-3.2h-3.2V7.5c0-.9.3-1.5 1.6-1.5H17V3.1c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.3H7.5v3.2h2.8V21h3.2Z" fill="currentColor"/></svg></span><small>Facebook</small><strong>www.facebook.com</strong></a>

@@ -13,6 +13,8 @@ const categoryOptions: Array<"All" | ProductCategory> = [
   "Bag Charms",
   "Fridge Magnets",
   "Key Chains",
+  "Car Charms",
+  "Pet Products",
 ];
 
 function ShopPageContent() {
@@ -87,6 +89,8 @@ function ShopPageContent() {
               <Link href="/shop?category=Bag%20Charms" onClick={() => setMobileMenuOpen(false)}>Bag Charms <small>Little handmade accessories</small></Link>
               <Link href="/shop?category=Fridge%20Magnets" onClick={() => setMobileMenuOpen(false)}>Fridge Magnets <small>Cheerful handmade keepsakes</small></Link>
               <Link href="/shop?category=Key%20Chains" onClick={() => setMobileMenuOpen(false)}>Key Chains <small>Bright daily carry accessories</small></Link>
+              <Link href="/shop?category=Car%20Charms" onClick={() => setMobileMenuOpen(false)}>Car Charms <small>Bright accessories for your ride</small></Link>
+              <Link href="/shop?category=Pet%20Products" onClick={() => setMobileMenuOpen(false)}>Pet Products <small>Cozy handmade pieces for pets</small></Link>
             </div>
           </div>
           <Link href="/#contact" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
