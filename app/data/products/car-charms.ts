@@ -8,6 +8,6 @@ export const carCharmProducts: Product[] = [
     image: "/product_images/car-charms/Lavender Drift Car Charm.png",
     category: "Car Charms",
     categoryAnchor: "category-car-charms",
-    description: "A cheerful handcrafted crochet charm for a bright and happy ride.",
+    description: "A cheerful handcrafted crochet charm for a bright and happy ride. 💜",
   },
 ];

@@ -8,6 +8,6 @@ export const petProductProducts: Product[] = [
     image: "/product_images/pet-products/Sky Snuggles Bow.png",
     category: "Pet Products",
     categoryAnchor: "category-pet-products",
-    description: "A handmade crochet pet accessory that adds a soft, playful finish to your furry friend.",
+    description: "A handmade crochet pet accessory that adds a soft, playful finish to your furry friend. 🐾",
   },
 ];

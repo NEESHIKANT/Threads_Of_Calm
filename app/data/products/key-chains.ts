@@ -8,6 +8,6 @@ export const keyChainProducts: Product[] = [
     image: "/product_images/key-chains/Berry Sweet Key Chain.png",
     category: "Key Chains",
     categoryAnchor: "category-key-chains",
-    description: "A cheerful handmade crochet keychain with a bright sunflower look for everyday carry.",
+    description: "A cheerful handmade crochet keychain with a bright sunflower look for everyday carry. ❤️",
   },
 ];

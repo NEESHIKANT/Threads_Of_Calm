@@ -8,7 +8,7 @@ export const homeDecorProducts: Product[] = [
     image: "/product_images/home-decor/Blossom Ring Wall Hanging.png",
     category: "Home Décor",
     categoryAnchor: "category-home-decor",
-    description: "A delicate handmade crochet flower hanging to bring a soft, cheerful touch to your home.",
+    description: "A delicate handmade crochet flower hanging to bring a soft, cheerful touch to your home. 🩷",
   },
   {
     id: "daisy-bloom-crochet-pot",
@@ -17,7 +17,7 @@ export const homeDecorProducts: Product[] = [
     image: "/product_images/home-decor/Daisy Bloom Crochet Pot.png",
     category: "Home Décor",
     categoryAnchor: "category-home-decor",
-    description: "A sunny crochet daisy in a little pot, handmade to brighten a shelf, desk, or cosy corner.",
+    description: "A sunny crochet daisy in a little pot, handmade to brighten a shelf, desk, or cosy corner. 🤍",
   },
   {
     id: "sunshine-hug-curtain-tiebacks",
@@ -26,6 +26,6 @@ export const homeDecorProducts: Product[] = [
     image: "/product_images/home-decor/Sunshine Hug Curtain Tiebacks.png",
     category: "Home Décor",
     categoryAnchor: "category-home-decor",
-    description: "Set of Two",
+    description: "Bright crochet sunflowers paired with deep green tassels, adding a cheerful handmade touch and a pop of colour to your curtains.💛",
   },
 ];

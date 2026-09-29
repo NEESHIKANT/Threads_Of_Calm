@@ -15,6 +15,8 @@ const categoryOptions: Array<"All" | ProductCategory> = [
   "Key Chains",
   "Car Charms",
   "Pet Products",
+  "Earrings",
+  "Bookmarks",
 ];
 
 function ShopPageContent() {
@@ -110,13 +112,15 @@ function ShopPageContent() {
               <Link href="/shop?category=Key%20Chains" onClick={() => setMobileMenuOpen(false)}>Key Chains <small>Bright daily carry accessories</small></Link>
               <Link href="/shop?category=Car%20Charms" onClick={() => setMobileMenuOpen(false)}>Car Charms <small>Bright accessories for your ride</small></Link>
               <Link href="/shop?category=Pet%20Products" onClick={() => setMobileMenuOpen(false)}>Pet Products <small>Cozy handmade pieces for pets</small></Link>
+              <Link href="/shop?category=Earrings" onClick={() => setMobileMenuOpen(false)}>Earrings <small>Lightweight crochet accessories</small></Link>
+              <Link href="/shop?category=Bookmarks" onClick={() => setMobileMenuOpen(false)}>Bookmarks <small>Pretty little reading companions</small></Link>
             </div>
           </div>
           <Link href="/#contact" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
         </div>
         <div className="actions">
           <button className="cart" aria-label="Cart" aria-expanded={cartOpen} onClick={() => setCartOpen((open) => !open)}>🛒<b>{cartCount}</b></button>
-          <Link className="whatsapp" href="https://wa.me/9040710818?text=Hi%20Sandhya%2C%20I%20want%20to%20know%20more%20about%20your%20products%20and%20pricing.%20Can%20you%20please%20help%20me%3F" onClick={() => setMobileMenuOpen(false)}>◉ &nbsp; Ask on WhatsApp</Link>
+          <Link className="whatsapp" href="https://wa.me/9040710818?text=Hi%20Sandhya%2C%20I%20want%20to%20know%20more%20about%20your%20products%20and%20pricing.%20Can%20you%20please%20help%20me%3F" onClick={() => setMobileMenuOpen(false)}>◉ &nbsp; Custom Orders</Link>
         </div>
         {cartOpen && (
           <div className="cart-popover">

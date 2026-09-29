@@ -1,4 +1,4 @@
-export type ProductCategory = "Home Décor" | "Bag Charms" | "Fridge Magnets" | "Key Chains" | "Car Charms" | "Pet Products";
+export type ProductCategory = "Home Décor" | "Bag Charms" | "Fridge Magnets" | "Key Chains" | "Car Charms" | "Pet Products" | "Earrings" | "Bookmarks";
 
 export type Product = {
   id: string;

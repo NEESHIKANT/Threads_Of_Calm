@@ -8,7 +8,7 @@ export const bagCharmProducts: Product[] = [
     image: "/product_images/bag-charms/Lavender Bloom Bag Charm.png",
     category: "Bag Charms",
     categoryAnchor: "category-bag-charms",
-    description: "A tiny lavender-inspired crochet bloom made by hand to add a little colour to your bag.",
+    description: "A tiny lavender-inspired crochet bloom made by hand to add a little colour to your bag. 💜",
   },
   {
     id: "ivory-blossom-bag-charm",
@@ -17,7 +17,7 @@ export const bagCharmProducts: Product[] = [
     image: "/product_images/bag-charms/Ivory Blossom Bag Charm.png",
     category: "Bag Charms",
     categoryAnchor: "category-bag-charms",
-    description: "A soft ivory crochet flower charm, carefully stitched as a sweet everyday accessory.",
+    description: "A soft ivory crochet flower charm, carefully stitched as a sweet everyday accessory. 🤍",
   },
   {
     id: "twirl-dress-bag-charm",
@@ -26,6 +26,6 @@ export const bagCharmProducts: Product[] = [
     image: "/product_images/bag-charms/Twirl Dress Bag Charm.png",
     category: "Bag Charms",
     categoryAnchor: "category-bag-charms",
-    description: "A playful handmade dress charm, crocheted with cheerful colour and thoughtful detail.",
+    description: "A playful handmade dress charm, crocheted with cheerful colour and thoughtful detail. 💚",
   },
 ];
