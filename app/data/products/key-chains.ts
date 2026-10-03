@@ -10,4 +10,13 @@ export const keyChainProducts: Product[] = [
     categoryAnchor: "category-key-chains",
     description: "A cheerful handmade crochet keychain with a bright sunflower look for everyday carry. ❤️",
   },
+  {
+    id: "lavender-bow-key-chain",
+    name: "Lavender Bow Key Chain",
+    price: "₹149",
+    image: "/product_images/key-chains/Lavender Bow Key Chain.png",
+    category: "Key Chains",
+    categoryAnchor: "category-key-chains",
+    description: "A sweet crochet bow in a soft lavender hue, carefully handcrafted with neat, precise stitches. 💜",
+  },
 ];

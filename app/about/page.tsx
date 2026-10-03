@@ -37,6 +37,7 @@ export default function AboutPage() {
               <Link href="/shop?category=Pet%20Products" onClick={() => setMobileMenuOpen(false)}>Pet Products <small>Cozy handmade pieces for pets</small></Link>
               <Link href="/shop?category=Earrings" onClick={() => setMobileMenuOpen(false)}>Earrings <small>Lightweight crochet accessories</small></Link>
               <Link href="/shop?category=Bookmarks" onClick={() => setMobileMenuOpen(false)}>Bookmarks <small>Pretty little reading companions</small></Link>
+              <Link href="/shop?category=Accessories" onClick={() => setMobileMenuOpen(false)}>Accessories <small>Handmade crochet extras</small></Link>
             </div>
           </div>
           <Link href="/#contact" onClick={() => setMobileMenuOpen(false)}>Contact</Link>

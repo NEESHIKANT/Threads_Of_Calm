@@ -12,12 +12,21 @@ export const fridgeMagnetProducts: Product[] = [
   },
   {
     id: "ivory-rosette",
-    name: "Ivory Rosette",
+    name: "Ivory Rosette Fridge Magnet",
     price: "₹349",
     image: "/product_images/fridge-magnets/Ivory Rosette.png",
     category: "Fridge Magnets",
     categoryAnchor: "category-fridge-magnets",
     description: "A beautifully handcrafted crochet rose, made with precise stitches and meticulous attention to detail. 🤍",
+  },
+  {
+    id: "ivory-petal-fridge-magnet",
+    name: "Ivory Petal Fridge Magnet",
+    price: "₹169",
+    image: "/product_images/fridge-magnets/Ivory Petal Fridge Magnet.png",
+    category: "Fridge Magnets",
+    categoryAnchor: "category-fridge-magnets",
+    description: "A handmade crochet flower featuring soft ivory petals and a textured green centre. 🤍",
   },
 
 ];

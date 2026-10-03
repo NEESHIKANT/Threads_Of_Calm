@@ -1,4 +1,5 @@
 import { bagCharmProducts } from "./products/bag-charms";
+import { accessoryProducts } from "./products/accessories";
 import { bookmarkProducts } from "./products/bookmarks";
 import { carCharmProducts } from "./products/car-charms";
 import { earringProducts } from "./products/earrings";
@@ -19,4 +20,5 @@ export const products = [
   ...petProductProducts,
   ...earringProducts,
   ...bookmarkProducts,
+  ...accessoryProducts,
 ];
