@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { products, type Product } from "./data/products";
+import { getProductTotalPrice } from "./data/products/pricing";
 
 type CartItem = Product & { quantity: number };
 
@@ -12,12 +13,18 @@ export default function Home() {
 	const [cartOpen, setCartOpen] = useState(false);
 	const [query, setQuery] = useState("");
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+	const [bundleOpenProduct, setBundleOpenProduct] = useState<string | null>(null);
 
 	useEffect(() => {
 		if (typeof window === "undefined") return;
 		try {
 			const savedCart = localStorage.getItem("threads-of-calm-cart");
-			setCart(savedCart ? JSON.parse(savedCart) : []);
+			setCart(savedCart
+				? (JSON.parse(savedCart) as CartItem[]).map((item) => {
+					const currentProduct = products.find((product) => product.id === item.id);
+					return currentProduct ? { ...item, ...currentProduct } : item;
+				})
+				: []);
 		} catch {
 			localStorage.removeItem("threads-of-calm-cart");
 			setCart([]);
@@ -42,18 +49,18 @@ export default function Home() {
 		.filter((product) => featuredProductIds.includes(product.id))
 		.filter((product) => product.name.toLowerCase().includes(query.toLowerCase()));
 	const cartCount = cart.reduce((count, item) => count + item.quantity, 0);
-	const cartTotal = cart.reduce((total, item) => total + Number(item.price.replace(/[^\d]/g, "")) * item.quantity, 0);
+	const cartTotal = cart.reduce((total, item) => total + getProductTotalPrice(item, item.quantity), 0);
 
 	const changeQuantity = (product: (typeof products)[number], change: number) => {
 		setCart((items) => {
-			const current = items.find((item) => item.name === product.name);
-			if (!current && change > 0) return [...items, { ...product, quantity: 1 }];
+			const current = items.find((item) => item.id === product.id);
+			if (!current && change > 0) return [...items, { ...product, quantity: change }];
 			return items
-				.map((item) => item.name === product.name ? { ...item, quantity: item.quantity + change } : item)
+				.map((item) => item.id === product.id ? { ...item, ...product, quantity: item.quantity + change } : item)
 				.filter((item) => item.quantity > 0);
 		});
 	};
-	const checkoutMessage = encodeURIComponent(`Hi! I’d like to order:\n${cart.map((item) => `${item.quantity} × ${item.name} (${item.price})`).join("\n")}`);
+	const checkoutMessage = encodeURIComponent(`Hi! I’d like to order:\n${cart.map((item) => `${item.quantity} × ${item.name} — ₹${getProductTotalPrice(item, item.quantity)}`).join("\n")}`);
 	const inquiryMessage = encodeURIComponent("Hi Sandhya, I want to know more about your products and pricing. Can you please help me?");
 
 	return (
@@ -90,11 +97,11 @@ export default function Home() {
 					</div>
 					<a href="/#contact" onClick={() => setMobileMenuOpen(false)}>Contact</a>
 				</div>
-				<div className="actions">{searchOpen && <form className="nav-search" onSubmit={(event) => { event.preventDefault(); document.getElementById("collection")?.scrollIntoView({ behavior: "smooth" }); }}><input autoFocus value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search products..." aria-label="Search products"/><button type="button" aria-label="Close search" onClick={() => { setQuery(""); setSearchOpen(false); }}>×</button></form>}<button aria-label="Search" aria-expanded={searchOpen} onClick={() => setSearchOpen((open) => !open)}>⌕</button><button className="cart" aria-label="Cart" aria-expanded={cartOpen} onClick={() => setCartOpen((open) => !open)}>🛒<b>{cartCount}</b></button><a className="whatsapp" href={`https://wa.me/9040710818?text=${inquiryMessage}`}>◉ &nbsp; Custom Orders</a></div>{cartOpen && <div className="cart-popover"><div className="cart-heading"><strong>Your basket</strong><button aria-label="Close basket" onClick={() => setCartOpen(false)}>×</button></div>{cart.length === 0 ? <p className="cart-empty">Your basket is empty. Add a handmade piece to get started.</p> : <><div className="cart-items">{cart.map((item) => <div className="cart-item" key={item.name}><img src={item.image} alt=""/><div className="cart-item-info"><strong>{item.name}</strong><span>{item.price} each</span><div className="quantity-control"><button aria-label={`Remove one ${item.name}`} onClick={() => changeQuantity(item, -1)}>−</button><span>{item.quantity}</span><button aria-label={`Add one ${item.name}`} onClick={() => changeQuantity(item, 1)}>+</button></div></div><b className="cart-line-total">₹{Number(item.price.replace(/[^\d]/g, "")) * item.quantity}</b></div>)}</div><div className="cart-total"><span>Subtotal</span><strong>₹{cartTotal}</strong></div><a className="cart-checkout" href={`https://wa.me/9040710818?text=${checkoutMessage}`}>Checkout on WhatsApp →</a></>}</div>}</nav>
+				<div className="actions">{searchOpen && <form className="nav-search" onSubmit={(event) => { event.preventDefault(); document.getElementById("collection")?.scrollIntoView({ behavior: "smooth" }); }}><input autoFocus value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search products..." aria-label="Search products"/><button type="button" aria-label="Close search" onClick={() => { setQuery(""); setSearchOpen(false); }}>×</button></form>}<button aria-label="Search" aria-expanded={searchOpen} onClick={() => setSearchOpen((open) => !open)}>⌕</button><button className="cart" aria-label="Cart" aria-expanded={cartOpen} onClick={() => setCartOpen((open) => !open)}>🛒<b>{cartCount}</b></button><a className="whatsapp" href={`https://wa.me/9040710818?text=${inquiryMessage}`}>◉ &nbsp; Custom Orders</a></div>{cartOpen && <div className="cart-popover"><div className="cart-heading"><strong>Your basket</strong><button aria-label="Close basket" onClick={() => setCartOpen(false)}>×</button></div>{cart.length === 0 ? <p className="cart-empty">Your basket is empty. Add a handmade piece to get started.</p> : <><div className="cart-items">{cart.map((item) => <div className="cart-item" key={item.name}><img src={item.image} alt=""/><div className="cart-item-info"><strong>{item.name}</strong><span>{item.quantity} item{item.quantity === 1 ? "" : "s"}</span><div className="quantity-control"><button aria-label={`Remove one ${item.name}`} onClick={() => changeQuantity(item, -1)}>−</button><span>{item.quantity}</span><button aria-label={`Add one ${item.name}`} onClick={() => changeQuantity(item, 1)}>+</button></div></div><b className="cart-line-total">₹{getProductTotalPrice(item, item.quantity)}</b></div>)}</div><div className="cart-total"><span>Subtotal</span><strong>₹{cartTotal}</strong></div><a className="cart-checkout" href={`https://wa.me/9040710818?text=${checkoutMessage}`}>Checkout on WhatsApp →</a></>}</div>}</nav>
 
 			<section className="hero" id="home"><div className="hero-copy"><p className="eyebrow">HANDCRAFTED CROCHET CREATIONS</p><h1>Small Handmade<br />Things for a<br /><em>Happier Everyday</em> <span>〰</span></h1><p className="intro">Crochet gifts, décor and accessories<br />made with love, one stitch at a time.</p><a className="shop-btn" href="#collection">Shop Our Collection &nbsp; →</a><div className="promises"><span>♡ <small>Handmade<br />with Love</small></span><span>🎁 <small>Perfect<br />for Gifting</small></span><span>♧ <small>Pan India<br />Shipping</small></span></div></div><div className="hero-photo leaves-photo"><img src="/product_images/banner.png" alt="Threads of Calm crochet banner" /></div></section>
 
-			<section className="collection" id="collection"><div className="section-heading"><div><h2>Our Collection <span>〰</span></h2><p>Thoughtfully handcrafted crochet products, perfect for gifting and everyday joy.</p></div><a href="/shop">View All Products &nbsp; →</a></div><div className="product-grid">{visibleProducts.map((product) => { const item = cart.find((cartItem) => cartItem.name === product.name); return <article className="product" id={product.categoryAnchor} key={product.name}><img src={product.image} alt={product.name} /><h3>{product.name}</h3><strong>{product.price}</strong>{item ? <div className="quantity-control product-quantity"><button aria-label={`Remove one ${product.name}`} onClick={() => changeQuantity(product, -1)}>−</button><span>{item.quantity}</span><button aria-label={`Add one ${product.name}`} onClick={() => changeQuantity(product, 1)}>+</button></div> : <button onClick={() => changeQuantity(product, 1)}>🛒 &nbsp; Add to Cart</button>}</article>; })}</div>{visibleProducts.length === 0 && <p className="empty-search">No handmade pieces match that search.</p>}</section>
+			<section className="collection" id="collection"><div className="section-heading"><div><h2>Our Collection <span>〰</span></h2><p>Thoughtfully handcrafted crochet products, perfect for gifting and everyday joy.</p></div><a href="/shop">View All Products &nbsp; →</a></div><div className="product-grid">{visibleProducts.map((product) => { const item = cart.find((cartItem) => cartItem.name === product.name); return <article className="product" id={product.categoryAnchor} key={product.name}><img src={product.image} alt={product.name} /><h3>{product.name}</h3><strong>{product.price}</strong>{(() => { if (product.bundleOptions && !item) { const showBundleOptions = bundleOpenProduct === product.name; return <><button className="product-order" type="button" onClick={() => setBundleOpenProduct((current) => current === product.name ? null : product.name)}>🛒 &nbsp; Add to Cart</button>{showBundleOptions && <div className="product-bundle-options"><button className="product-bundle-option" type="button" onClick={() => { setBundleOpenProduct(null); changeQuantity(product, 1); }}>Buy 1 · {product.price}</button>{product.bundleOptions.filter((option) => option.quantity !== 1).map((option) => <button className="product-bundle-option" key={`${product.name}-${option.label}`} type="button" onClick={() => { setBundleOpenProduct(null); changeQuantity(product, option.quantity); }}>{option.label} · {option.price}</button>)}</div>}</>;} return item ? <div className="quantity-control product-quantity"><button aria-label={`Remove one ${product.name}`} onClick={() => changeQuantity(product, -1)}>−</button><span>{item.quantity}</span><button aria-label={`Add one ${product.name}`} onClick={() => changeQuantity(product, 1)}>+</button></div> : <button onClick={() => changeQuantity(product, 1)}>🛒 &nbsp; Add to Cart</button>; })()}</article>; })}</div>{visibleProducts.length === 0 && <p className="empty-search">No handmade pieces match that search.</p>}</section>
 
 			<section className="contact-section" id="contact">
 				<p className="eyebrow">WE’D LOVE TO HEAR FROM YOU</p>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { products, type Product, type ProductCategory } from "../data/products";
+import { getProductTotalPrice } from "../data/products/pricing";
 
 type CartItem = Product & { quantity: number };
 
@@ -27,12 +28,19 @@ function ShopPageContent() {
   const [hasHydratedCart, setHasHydratedCart] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<"All" | ProductCategory>("All");
+  const [bundleOpenProduct, setBundleOpenProduct] = useState<string | null>(null);
+  const [productImageIndexes, setProductImageIndexes] = useState<Record<string, number>>({});
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     try {
       const savedCart = localStorage.getItem("threads-of-calm-cart");
-      setCart(savedCart ? JSON.parse(savedCart) : []);
+      setCart(savedCart
+        ? (JSON.parse(savedCart) as CartItem[]).map((item) => {
+          const currentProduct = products.find((product) => product.id === item.id);
+          return currentProduct ? { ...item, ...currentProduct } : item;
+        })
+        : []);
     } catch {
       localStorage.removeItem("threads-of-calm-cart");
       setCart([]);
@@ -56,7 +64,7 @@ function ShopPageContent() {
 
   const filteredProducts = selectedCategory === "All" ? products : products.filter((product) => product.category === selectedCategory);
   const cartCount = cart.reduce((count, item) => count + item.quantity, 0);
-  const cartTotal = cart.reduce((total, item) => total + Number(item.price.replace(/[^\d]/g, "")) * item.quantity, 0);
+  const cartTotal = cart.reduce((total, item) => total + getProductTotalPrice(item, item.quantity), 0);
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -75,14 +83,14 @@ function ShopPageContent() {
 
   const changeQuantity = (product: Product, change: number) => {
     setCart((items) => {
-      const current = items.find((item) => item.name === product.name);
-      if (!current && change > 0) return [...items, { ...product, quantity: 1 }];
+      const current = items.find((item) => item.id === product.id);
+      if (!current && change > 0) return [...items, { ...product, quantity: change }];
       return items
-        .map((item) => item.name === product.name ? { ...item, quantity: item.quantity + change } : item)
+        .map((item) => item.id === product.id ? { ...item, ...product, quantity: item.quantity + change } : item)
         .filter((item) => item.quantity > 0);
     });
   };
-  const checkoutMessage = encodeURIComponent(`Hi! I’d like to order:\n${cart.map((item) => `${item.quantity} × ${item.name} (${item.price})`).join("\n")}`);
+  const checkoutMessage = encodeURIComponent(`Hi! I’d like to order:\n${cart.map((item) => `${item.quantity} × ${item.name} — ₹${getProductTotalPrice(item, item.quantity)}`).join("\n")}`);
 
   return (
     <main>
@@ -130,10 +138,10 @@ function ShopPageContent() {
             {cart.length === 0 ? <p className="cart-empty">Your basket is empty. Add a handmade piece to get started.</p> : <>
               <div className="cart-items">{cart.map((item) => <div className="cart-item" key={item.name}>
                 <img src={item.image} alt="" />
-                <div className="cart-item-info"><strong>{item.name}</strong><span>{item.price} each</span>
+                <div className="cart-item-info"><strong>{item.name}</strong><span>{item.quantity} item{item.quantity === 1 ? "" : "s"}</span>
                   <div className="quantity-control"><button aria-label={`Remove one ${item.name}`} onClick={() => changeQuantity(item, -1)}>−</button><span>{item.quantity}</span><button aria-label={`Add one ${item.name}`} onClick={() => changeQuantity(item, 1)}>+</button></div>
                 </div>
-                <b className="cart-line-total">₹{Number(item.price.replace(/[^\d]/g, "")) * item.quantity}</b>
+                <b className="cart-line-total">₹{getProductTotalPrice(item, item.quantity)}</b>
               </div>)}</div>
               <div className="cart-total"><span>Subtotal</span><strong>₹{cartTotal}</strong></div>
               <a className="cart-checkout" href={`https://wa.me/9040710818?text=${checkoutMessage}`}>Checkout on WhatsApp →</a>
@@ -164,7 +172,38 @@ function ShopPageContent() {
           ) : (
             filteredProducts.map((product) => (
               <article className="product all-product" key={product.name}>
-                <img src={product.image} alt={product.name} />
+                {product.images && product.images.length > 1 ? (
+                  <div className="product-image-carousel">
+                    <img
+                      src={product.images[productImageIndexes[product.id] ?? 0]}
+                      alt={product.name}
+                    />
+                    <button
+                      className="product-image-arrow previous"
+                      type="button"
+                      aria-label={`Previous ${product.name} image`}
+                      onClick={() => setProductImageIndexes((indexes) => ({
+                        ...indexes,
+                        [product.id]: ((indexes[product.id] ?? 0) - 1 + product.images!.length) % product.images!.length,
+                      }))}
+                    >
+                      ‹
+                    </button>
+                    <button
+                      className="product-image-arrow next"
+                      type="button"
+                      aria-label={`Next ${product.name} image`}
+                      onClick={() => setProductImageIndexes((indexes) => ({
+                        ...indexes,
+                        [product.id]: ((indexes[product.id] ?? 0) + 1) % product.images!.length,
+                      }))}
+                    >
+                      ›
+                    </button>
+                  </div>
+                ) : (
+                  <img src={product.image} alt={product.name} />
+                )}
                 <div className="all-product-info">
                   <span className="product-category">{product.category}</span>
                   <h2>{product.name}</h2>
@@ -172,6 +211,37 @@ function ShopPageContent() {
                   <strong>{product.price}</strong>
                   {(() => {
                     const item = cart.find((cartItem) => cartItem.name === product.name);
+                    if (product.bundleOptions && !item) {
+                      const showBundleOptions = bundleOpenProduct === product.name;
+                      return (
+                        <>
+                          <button
+                            className="product-order"
+                            type="button"
+                            onClick={() => setBundleOpenProduct((current) => current === product.name ? null : product.name)}
+                          >
+                            🛒 &nbsp; Add to Cart
+                          </button>
+                          {showBundleOptions && (
+                            <div className="product-bundle-options">
+                              {product.bundleOptions.map((option) => (
+                                <button
+                                  key={`${product.name}-${option.label}`}
+                                  className="product-bundle-option"
+                                  onClick={() => {
+                                    setBundleOpenProduct(null);
+                                    changeQuantity(product, option.quantity);
+                                  }}
+                                  type="button"
+                                >
+                                  {option.label} · {option.price}
+                                </button>
+                              ))}
+                            </div>
+                          )}
+                        </>
+                      );
+                    }
                     return item ? (
                       <div className="quantity-control product-quantity">
                         <button aria-label={`Remove one ${product.name}`} onClick={() => changeQuantity(product, -1)}>−</button>
