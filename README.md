@@ -38,5 +38,5 @@ npm run start
 This project is ready to be uploaded to GitHub and connected to Vercel for public hosting.
 
 git add .
-git commit -m "Added new products and with dual photo"
+git commit -m "Added new bag charm and home decore with front page changes"
 git push origin main

@@ -74,4 +74,13 @@ export const homeDecorProducts: Product[] = [
     categoryAnchor: "category-home-decor",
     description: "A handmade crochet sunflower in a cute little pot, adding a cheerful pop of colour to your desk, shelf, or favourite corner.💛",
   },
+  {
+    id: "olive-crochet-wind-spinner",
+    name: "Olive Crochet Wind Spinner",
+    price: "₹499",
+    image: "/product_images/home-decor/Olive Crochet Wind Spinner.png",
+    category: "Home Décor",
+    categoryAnchor: "category-home-decor",
+    description: "A delicate handmade crochet flower hanging to bring a soft, cheerful touch to your home. 🩷",
+  },
 ];
