@@ -113,7 +113,7 @@ export const bagCharmProducts: Product[] = [
     id: "burgundy-cream-duo-bag-charm",
     name: "Burgundy Cream Duo Bag Charm",
     price: "₹249",
-    image: "/product_images/bag-charms/Crimson & Cream Duo Bag charm.png",
+    image: "/product_images/bag-charms/Burgundy Cream Duo Bag Charm.png",
     category: "Bag Charms",
     categoryAnchor: "category-bag-charms",
     description: "A handmade crochet bag charm featuring two textured flowers in rich burgundy and soft cream, finished with coordinating braided cords and a delicate bead. A warm, elegant accent that adds a handcrafted touch to everyday bags.",
