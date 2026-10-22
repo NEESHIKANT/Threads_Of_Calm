@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { products, type Product, type ProductCategory } from "../data/products";
@@ -137,7 +138,7 @@ function ShopPageContent() {
             <div className="cart-heading"><strong>Your basket</strong><button aria-label="Close basket" onClick={() => setCartOpen(false)}>×</button></div>
             {cart.length === 0 ? <p className="cart-empty">Your basket is empty. Add a handmade piece to get started.</p> : <>
               <div className="cart-items">{cart.map((item) => <div className="cart-item" key={item.name}>
-                <img src={item.image} alt="" />
+                <Image src={item.image} alt="" width={120} height={120} sizes="60px" />
                 <div className="cart-item-info"><strong>{item.name}</strong><span>{item.quantity} item{item.quantity === 1 ? "" : "s"}</span>
                   <div className="quantity-control"><button aria-label={`Remove one ${item.name}`} onClick={() => changeQuantity(item, -1)}>−</button><span>{item.quantity}</span><button aria-label={`Add one ${item.name}`} onClick={() => changeQuantity(item, 1)}>+</button></div>
                 </div>
@@ -174,9 +175,11 @@ function ShopPageContent() {
               <article className="product all-product" key={product.name}>
                 {product.images && product.images.length > 1 ? (
                   <div className="product-image-carousel">
-                    <img
+                    <Image
                       src={product.images[productImageIndexes[product.id] ?? 0]}
                       alt={product.name}
+                      fill
+                      sizes="(max-width: 600px) 94vw, (max-width: 900px) 46vw, 31vw"
                     />
                     <button
                       className="product-image-arrow previous"
@@ -202,7 +205,13 @@ function ShopPageContent() {
                     </button>
                   </div>
                 ) : (
-                  <img src={product.image} alt={product.name} />
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    width={800}
+                    height={800}
+                    sizes="(max-width: 600px) 94vw, (max-width: 900px) 46vw, 31vw"
+                  />
                 )}
                 <div className="all-product-info">
                   <span className="product-category">{product.category}</span>
