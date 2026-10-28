@@ -63,6 +63,10 @@ function ShopPageContent() {
     setSelectedCategory(nextCategory);
   }, [searchParams]);
 
+  useEffect(() => {
+    if (hasHydratedCart) setCartOpen(searchParams.get("viewBasket") === "1");
+  }, [hasHydratedCart, searchParams]);
+
   const filteredProducts = selectedCategory === "All" ? products : products.filter((product) => product.category === selectedCategory);
   const cartCount = cart.reduce((count, item) => count + item.quantity, 0);
   const cartTotal = cart.reduce((total, item) => total + getProductTotalPrice(item, item.quantity), 0);
@@ -72,6 +76,7 @@ function ShopPageContent() {
   const updateCategory = (value: "All" | ProductCategory) => {
     setSelectedCategory(value);
     const params = new URLSearchParams(searchParams.toString());
+    params.delete("viewBasket");
     if (value === "All") {
       params.delete("category");
     } else {
@@ -80,6 +85,15 @@ function ShopPageContent() {
     const nextUrl = params.toString() ? `/shop?${params.toString()}` : "/shop";
     setMobileMenuOpen(false);
     router.push(nextUrl);
+  };
+
+  const closeCart = () => {
+    setCartOpen(false);
+    if (searchParams.has("viewBasket")) {
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete("viewBasket");
+      router.replace(params.toString() ? `/shop?${params.toString()}` : "/shop", { scroll: false });
+    }
   };
 
   const changeQuantity = (product: Product, change: number) => {
@@ -135,12 +149,13 @@ function ShopPageContent() {
         </div>
         {cartOpen && (
           <div className="cart-popover">
-            <div className="cart-heading"><strong>Your basket</strong><button aria-label="Close basket" onClick={() => setCartOpen(false)}>×</button></div>
+            <div className="cart-heading"><strong>Your basket</strong><button aria-label="Close basket" onClick={closeCart}>×</button></div>
             {cart.length === 0 ? <p className="cart-empty">Your basket is empty. Add a handmade piece to get started.</p> : <>
               <div className="cart-items">{cart.map((item) => <div className="cart-item" key={item.name}>
                 <Image src={item.image} alt="" width={120} height={120} sizes="60px" />
                 <div className="cart-item-info"><strong>{item.name}</strong><span>{item.quantity} item{item.quantity === 1 ? "" : "s"}</span>
                   <div className="quantity-control"><button aria-label={`Remove one ${item.name}`} onClick={() => changeQuantity(item, -1)}>−</button><span>{item.quantity}</span><button aria-label={`Add one ${item.name}`} onClick={() => changeQuantity(item, 1)}>+</button></div>
+                  <button className="cart-remove" type="button" aria-label={`Remove ${item.name} from basket`} onClick={() => changeQuantity(item, -item.quantity)}>Remove</button>
                 </div>
                 <b className="cart-line-total">₹{getProductTotalPrice(item, item.quantity)}</b>
               </div>)}</div>
@@ -175,12 +190,14 @@ function ShopPageContent() {
               <article className="product all-product" key={product.name}>
                 {product.images && product.images.length > 1 ? (
                   <div className="product-image-carousel">
-                    <Image
-                      src={product.images[productImageIndexes[product.id] ?? 0]}
-                      alt={product.name}
-                      fill
-                      sizes="(max-width: 600px) 94vw, (max-width: 900px) 46vw, 31vw"
-                    />
+                    <Link className="product-card-image-link" href={`/product/${product.id}`} aria-label={`View ${product.name}`}>
+                      <Image
+                        src={product.images[productImageIndexes[product.id] ?? 0]}
+                        alt={product.name}
+                        fill
+                        sizes="(max-width: 600px) 94vw, (max-width: 900px) 46vw, 31vw"
+                      />
+                    </Link>
                     <button
                       className="product-image-arrow previous"
                       type="button"
@@ -205,17 +222,19 @@ function ShopPageContent() {
                     </button>
                   </div>
                 ) : (
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    width={800}
-                    height={800}
-                    sizes="(max-width: 600px) 94vw, (max-width: 900px) 46vw, 31vw"
-                  />
+                  <Link className="product-card-image-link" href={`/product/${product.id}`} aria-label={`View ${product.name}`}>
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      width={800}
+                      height={800}
+                      sizes="(max-width: 600px) 94vw, (max-width: 900px) 46vw, 31vw"
+                    />
+                  </Link>
                 )}
                 <div className="all-product-info">
                   <span className="product-category">{product.category}</span>
-                  <h2>{product.name}</h2>
+                  <h2><Link href={`/product/${product.id}`}>{product.name}</Link></h2>
                   <p className="all-product-description">{product.description}</p>
                   <strong>{product.price}</strong>
                   {(() => {
