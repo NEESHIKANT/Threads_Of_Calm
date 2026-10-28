@@ -58,7 +58,7 @@ export default function ProductDetailPage() {
           <Link className="active" href="/shop">Shop</Link>
           <Link href="/about">About Us</Link>
         </div>
-        <Link className="whatsapp" href="/shop?viewBasket=1">Basket &amp; checkout</Link>
+        <Link className="whatsapp" href="/cart">Basket &amp; checkout</Link>
       </nav>
 
       <section className="product-detail-page">
@@ -120,7 +120,7 @@ export default function ProductDetailPage() {
             {addedQuantity > 0 && (
               <div className="product-detail-confirmation" role="status">
                 <span>{addedQuantity} {addedQuantity === 1 ? "item" : "items"} added to your basket.</span>
-                <Link href="/shop?viewBasket=1">View basket &amp; checkout</Link>
+                <Link href="/cart">View basket &amp; checkout</Link>
               </div>
             )}
             <p className="product-detail-note">Handmade with care. Contact us for custom colours or gifting requests.</p>

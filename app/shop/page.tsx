@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { products, type Product, type ProductCategory } from "../data/products";
-import { getProductTotalPrice } from "../data/products/pricing";
 
 type CartItem = Product & { quantity: number };
 
@@ -27,7 +26,6 @@ function ShopPageContent() {
   const searchParams = useSearchParams();
   const [cart, setCart] = useState<CartItem[]>([]);
   const [hasHydratedCart, setHasHydratedCart] = useState(false);
-  const [cartOpen, setCartOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<"All" | ProductCategory>("All");
   const [bundleOpenProduct, setBundleOpenProduct] = useState<string | null>(null);
   const [productImageIndexes, setProductImageIndexes] = useState<Record<string, number>>({});
@@ -63,20 +61,13 @@ function ShopPageContent() {
     setSelectedCategory(nextCategory);
   }, [searchParams]);
 
-  useEffect(() => {
-    if (hasHydratedCart) setCartOpen(searchParams.get("viewBasket") === "1");
-  }, [hasHydratedCart, searchParams]);
-
   const filteredProducts = selectedCategory === "All" ? products : products.filter((product) => product.category === selectedCategory);
   const cartCount = cart.reduce((count, item) => count + item.quantity, 0);
-  const cartTotal = cart.reduce((total, item) => total + getProductTotalPrice(item, item.quantity), 0);
-
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const updateCategory = (value: "All" | ProductCategory) => {
     setSelectedCategory(value);
     const params = new URLSearchParams(searchParams.toString());
-    params.delete("viewBasket");
     if (value === "All") {
       params.delete("category");
     } else {
@@ -85,15 +76,6 @@ function ShopPageContent() {
     const nextUrl = params.toString() ? `/shop?${params.toString()}` : "/shop";
     setMobileMenuOpen(false);
     router.push(nextUrl);
-  };
-
-  const closeCart = () => {
-    setCartOpen(false);
-    if (searchParams.has("viewBasket")) {
-      const params = new URLSearchParams(searchParams.toString());
-      params.delete("viewBasket");
-      router.replace(params.toString() ? `/shop?${params.toString()}` : "/shop", { scroll: false });
-    }
   };
 
   const changeQuantity = (product: Product, change: number) => {
@@ -105,7 +87,6 @@ function ShopPageContent() {
         .filter((item) => item.quantity > 0);
     });
   };
-  const checkoutMessage = encodeURIComponent(`Hi! I’d like to order:\n${cart.map((item) => `${item.quantity} × ${item.name} — ₹${getProductTotalPrice(item, item.quantity)}`).join("\n")}`);
 
   return (
     <main>
@@ -144,26 +125,9 @@ function ShopPageContent() {
           <Link href="/#contact" onClick={() => setMobileMenuOpen(false)}>Contact</Link>
         </div>
         <div className="actions">
-          <button className="cart" aria-label="Cart" aria-expanded={cartOpen} onClick={() => setCartOpen((open) => !open)}>🛒<b>{cartCount}</b></button>
+          <Link className="cart" href="/cart" aria-label={`View cart, ${cartCount} items`}>🛒<b>{cartCount}</b></Link>
           <Link className="whatsapp" href="https://wa.me/9040710818?text=Hi%20Sandhya%2C%20I%20want%20to%20know%20more%20about%20your%20products%20and%20pricing.%20Can%20you%20please%20help%20me%3F" onClick={() => setMobileMenuOpen(false)}>◉ &nbsp; Custom Orders</Link>
         </div>
-        {cartOpen && (
-          <div className="cart-popover">
-            <div className="cart-heading"><strong>Your basket</strong><button aria-label="Close basket" onClick={closeCart}>×</button></div>
-            {cart.length === 0 ? <p className="cart-empty">Your basket is empty. Add a handmade piece to get started.</p> : <>
-              <div className="cart-items">{cart.map((item) => <div className="cart-item" key={item.name}>
-                <Image src={item.image} alt="" width={120} height={120} sizes="60px" />
-                <div className="cart-item-info"><strong>{item.name}</strong><span>{item.quantity} item{item.quantity === 1 ? "" : "s"}</span>
-                  <div className="quantity-control"><button aria-label={`Remove one ${item.name}`} onClick={() => changeQuantity(item, -1)}>−</button><span>{item.quantity}</span><button aria-label={`Add one ${item.name}`} onClick={() => changeQuantity(item, 1)}>+</button></div>
-                  <button className="cart-remove" type="button" aria-label={`Remove ${item.name} from basket`} onClick={() => changeQuantity(item, -item.quantity)}>Remove</button>
-                </div>
-                <b className="cart-line-total">₹{getProductTotalPrice(item, item.quantity)}</b>
-              </div>)}</div>
-              <div className="cart-total"><span>Subtotal</span><strong>₹{cartTotal}</strong></div>
-              <a className="cart-checkout" href={`https://wa.me/9040710818?text=${checkoutMessage}`}>Checkout on WhatsApp →</a>
-            </>}
-          </div>
-        )}
       </nav>
 
       <section className="all-products-page">
