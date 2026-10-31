@@ -19,4 +19,14 @@ export const keyChainProducts: Product[] = [
     categoryAnchor: "category-key-chains",
     description: "A sweet crochet bow in a soft lavender hue, carefully handcrafted with neat, precise stitches. 💜",
   },
+  {
+    id: "Wiggle Buddy Keychain",
+    name: "Wiggle Buddy Keychain",
+    price: "₹199",
+    image: "/product_images/key-chains/Wiggle Buddy Keychain.png",
+    video: "/product_images/key-chains/Wiggle Buddy Keychain.mp4",
+    category: "Key Chains",
+    categoryAnchor: "category-key-chains",
+    description: "Meet your little pocket-sized buddy! This adorable crochet character comes with movable, pull-and-pose arms and legs that you can stretch and adjust however you like. Finished with cute wooden beads and a cheerful face, it's a fun little companion for your keys, bags or backpacks. 🧶✨",
+  },
 ];

@@ -12,6 +12,7 @@ export type Product = {
   price: string;
   image: string;
   images?: string[];
+  video?: string;
   category: ProductCategory;
   categoryAnchor?: string;
   description: string;

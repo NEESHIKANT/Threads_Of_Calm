@@ -65,6 +65,18 @@ function ShopPageContent() {
   const cartCount = cart.reduce((count, item) => count + item.quantity, 0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const getProductSlides = (product: Product) => {
+    const videoIndex = product.video ? (product.images?.length ? product.images.length : 1) : -1;
+    return [
+      ...(product.images?.length ? product.images : [product.image]),
+      ...(product.video ? [product.video] : []),
+    ].map((src, index) => ({
+      id: `${product.id}-${index}`,
+      src,
+      isVideo: product.video ? index === videoIndex : false,
+    }));
+  };
+
   const updateCategory = (value: "All" | ProductCategory) => {
     setSelectedCategory(value);
     const params = new URLSearchParams(searchParams.toString());
@@ -150,52 +162,73 @@ function ShopPageContent() {
           {filteredProducts.length === 0 ? (
             <p className="empty-search">No handmade pieces are available in this category yet.</p>
           ) : (
-            filteredProducts.map((product) => (
-              <article className="product all-product" key={product.name}>
-                {product.images && product.images.length > 1 ? (
-                  <div className="product-image-carousel">
+            filteredProducts.map((product) => {
+              const productSlides = getProductSlides(product);
+              const currentSlideIndex = productImageIndexes[product.id] ?? 0;
+              const currentSlide = productSlides[currentSlideIndex] ?? productSlides[0];
+
+              return (
+                <article className="product all-product" key={product.name}>
+                  {productSlides.length > 1 ? (
+                    <div className="product-image-carousel">
+                      {currentSlide.isVideo ? (
+                        <video
+                          src={currentSlide.src}
+                          className="product-card-video"
+                          controls
+                          playsInline
+                          muted
+                        />
+                      ) : (
+                        <Image
+                          src={currentSlide.src}
+                          alt={product.name}
+                          fill
+                          sizes="(max-width: 600px) 94vw, (max-width: 900px) 46vw, 31vw"
+                        />
+                      )}
+                      <button
+                        className="product-image-arrow previous"
+                        type="button"
+                        aria-label={`Previous ${product.name} media`}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          event.stopPropagation();
+                          setProductImageIndexes((indexes) => ({
+                            ...indexes,
+                            [product.id]: ((indexes[product.id] ?? 0) - 1 + productSlides.length) % productSlides.length,
+                          }));
+                        }}
+                      >
+                        ‹
+                      </button>
+                      <button
+                        className="product-image-arrow next"
+                        type="button"
+                        aria-label={`Next ${product.name} media`}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          event.stopPropagation();
+                          setProductImageIndexes((indexes) => ({
+                            ...indexes,
+                            [product.id]: ((indexes[product.id] ?? 0) + 1) % productSlides.length,
+                          }));
+                        }}
+                      >
+                        ›
+                      </button>
+                    </div>
+                  ) : (
                     <Link className="product-card-image-link" href={`/product/${product.id}`} aria-label={`View ${product.name}`}>
                       <Image
-                        src={product.images[productImageIndexes[product.id] ?? 0]}
+                        src={product.image}
                         alt={product.name}
-                        fill
+                        width={800}
+                        height={800}
                         sizes="(max-width: 600px) 94vw, (max-width: 900px) 46vw, 31vw"
                       />
                     </Link>
-                    <button
-                      className="product-image-arrow previous"
-                      type="button"
-                      aria-label={`Previous ${product.name} image`}
-                      onClick={() => setProductImageIndexes((indexes) => ({
-                        ...indexes,
-                        [product.id]: ((indexes[product.id] ?? 0) - 1 + product.images!.length) % product.images!.length,
-                      }))}
-                    >
-                      ‹
-                    </button>
-                    <button
-                      className="product-image-arrow next"
-                      type="button"
-                      aria-label={`Next ${product.name} image`}
-                      onClick={() => setProductImageIndexes((indexes) => ({
-                        ...indexes,
-                        [product.id]: ((indexes[product.id] ?? 0) + 1) % product.images!.length,
-                      }))}
-                    >
-                      ›
-                    </button>
-                  </div>
-                ) : (
-                  <Link className="product-card-image-link" href={`/product/${product.id}`} aria-label={`View ${product.name}`}>
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      width={800}
-                      height={800}
-                      sizes="(max-width: 600px) 94vw, (max-width: 900px) 46vw, 31vw"
-                    />
-                  </Link>
-                )}
+                  )}
                 <div className="all-product-info">
                   <span className="product-category">{product.category}</span>
                   <h2><Link href={`/product/${product.id}`}>{product.name}</Link></h2>
@@ -244,9 +277,10 @@ function ShopPageContent() {
                       <button className="product-order" onClick={() => changeQuantity(product, 1)}>🛒 &nbsp; Add to Cart</button>
                     );
                   })()}
-                </div>
-              </article>
-            ))
+                  </div>
+                </article>
+              );
+            })
           )}
         </div>
       </section>

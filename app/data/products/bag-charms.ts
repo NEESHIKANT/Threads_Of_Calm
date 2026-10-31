@@ -58,7 +58,7 @@ export const bagCharmProducts: Product[] = [
   {
     id: "pinkbell-bag-charm",
     name: "Pinkbell Bag Charm",
-    price: "249",
+    price: "₹249",
     image: "/product_images/bag-charms/Pinkbell Bag Charm.png",
     category: "Bag Charms",
     categoryAnchor: "category-bag-charms",
@@ -174,6 +174,6 @@ export const bagCharmProducts: Product[] = [
     image: "/product_images/bag-charms/Grape Giggles Bag Charm.png",
     category: "Bag Charms",
     categoryAnchor: "category-bag-charms",
-    description: "",
+    description: "A playful pair of crochet bell flowers in two pretty shades of purple, finished with leafy green detailing. With their cute ruffled edges and bouncy little shape.",
   },
 ];

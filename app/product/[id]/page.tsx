@@ -15,7 +15,17 @@ export default function ProductDetailPage() {
   const [imageIndex, setImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [addedQuantity, setAddedQuantity] = useState(0);
-  const images = product?.images?.length ? product.images : product ? [product.image] : [];
+  const videoIndex = product && product.video ? (product.images?.length ? product.images.length : 1) : -1;
+  const gallerySlides = product ? [
+    ...(product.images?.length ? product.images : [product.image]),
+    ...(product.video ? [product.video] : []),
+  ].map((src, index) => ({
+    id: `${product.id}-${index}`,
+    src,
+    isVideo: product.video ? index === videoIndex : false,
+  })) : [];
+
+  const gallerySlide = gallerySlides[imageIndex] ?? gallerySlides[0];
 
   const addToCart = (amount: number) => {
     if (!product) return;
@@ -68,20 +78,56 @@ export default function ProductDetailPage() {
         <div className="product-detail-layout">
           <div className="product-detail-gallery">
             <div className="product-detail-main-image">
-              <Image src={images[imageIndex]} alt={product.name} fill priority sizes="(max-width: 700px) 94vw, 55vw" />
+              {gallerySlide?.isVideo ? (
+                <video
+                  key={gallerySlide.src}
+                  src={gallerySlide.src}
+                  controls
+                  playsInline
+                  autoPlay
+                  muted
+                  className="product-detail-main-video"
+                />
+              ) : (
+                <Image src={gallerySlide.src} alt={product.name} fill priority sizes="(max-width: 700px) 94vw, 55vw" />
+              )}
             </div>
-            {images.length > 1 && (
-              <div className="product-detail-thumbnails" aria-label="Product images">
-                {images.map((image, index) => (
+            {gallerySlides.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  className="product-detail-gallery-arrow previous"
+                  aria-label="Previous product media"
+                  onClick={() => setImageIndex((index) => (index - 1 + gallerySlides.length) % gallerySlides.length)}
+                >
+                  ‹
+                </button>
+                <button
+                  type="button"
+                  className="product-detail-gallery-arrow next"
+                  aria-label="Next product media"
+                  onClick={() => setImageIndex((index) => (index + 1) % gallerySlides.length)}
+                >
+                  ›
+                </button>
+              </>
+            )}
+            {gallerySlides.length > 1 && (
+              <div className="product-detail-thumbnails" aria-label="Product gallery">
+                {gallerySlides.map((slide, index) => (
                   <button
-                    key={image}
+                    key={slide.id}
                     type="button"
-                    className={index === imageIndex ? "selected" : ""}
-                    aria-label={`View product image ${index + 1}`}
+                    className={index === imageIndex ? "selected" : slide.isVideo ? "video-thumb" : ""}
+                    aria-label={slide.isVideo ? `View product video ${index + 1}` : `View product image ${index + 1}`}
                     aria-pressed={index === imageIndex}
                     onClick={() => setImageIndex(index)}
                   >
-                    <Image src={image} alt="" fill sizes="72px" />
+                    {slide.isVideo ? (
+                      <span className="product-detail-video-label">Video</span>
+                    ) : (
+                      <Image src={slide.src} alt="" fill sizes="72px" />
+                    )}
                   </button>
                 ))}
               </div>

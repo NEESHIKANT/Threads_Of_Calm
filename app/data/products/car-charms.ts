@@ -28,4 +28,14 @@ export const carCharmProducts: Product[] = [
     categoryAnchor: "category-car-charms",
     description: "A cheerful crocheted daisy with a textured golden centre, soft ivory petals, and a matching yellow tassel. 💛",
   },
+  {
+    id: "bumble-boop-car-charm",
+    name: "Bumble Boop Car Charm",
+    price: "₹399",
+    image: "/product_images/car-charms/Bumble Boop Car Charm.png",
+    video: "/product_images/car-charms/Bumble Boop Car Charm.mp4",
+    category: "Car Charms",
+    categoryAnchor: "category-car-charms",
+    description: "A tiny ball of happiness for your everyday drives! This adorable handmade bee features little white wings, rosy cheeks and a sweet embroidered smile. A cute little companion that makes every ride a bit more cheerful. 💛",
+  },
 ];
