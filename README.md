@@ -38,5 +38,5 @@ npm run start
 This project is ready to be uploaded to GitHub and connected to Vercel for public hosting.
 
 git add .
-git commit -m "Cart changes"
+git commit -m "Product Addition and Shipping Update"
 git push origin main

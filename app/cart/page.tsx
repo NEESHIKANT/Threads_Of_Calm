@@ -8,6 +8,11 @@ import { getProductTotalPrice } from "../data/products/pricing";
 
 type CartItem = Product & { quantity: number };
 
+const MINIMUM_ORDER_VALUE = 400;
+const FREE_SHIPPING_THRESHOLD = 750;
+const MINIMUM_SHIPPING_CHARGE = 80;
+const MAXIMUM_SHIPPING_CHARGE = 100;
+
 export default function CartPage() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [hasHydratedCart, setHasHydratedCart] = useState(false);
@@ -43,7 +48,18 @@ export default function CartPage() {
   };
 
   const cartTotal = cart.reduce((total, item) => total + getProductTotalPrice(item, item.quantity), 0);
-  const checkoutMessage = encodeURIComponent(`Hi! I’d like to order:\n${cart.map((item) => `${item.quantity} × ${item.name} — ₹${getProductTotalPrice(item, item.quantity)}`).join("\n")}`);
+  const shippingCharge = cartTotal >= FREE_SHIPPING_THRESHOLD
+    ? 0
+    : Math.round(
+      MAXIMUM_SHIPPING_CHARGE
+      - ((Math.max(cartTotal, MINIMUM_ORDER_VALUE) - MINIMUM_ORDER_VALUE)
+        / (FREE_SHIPPING_THRESHOLD - MINIMUM_ORDER_VALUE))
+      * (MAXIMUM_SHIPPING_CHARGE - MINIMUM_SHIPPING_CHARGE),
+    );
+  const orderTotal = cartTotal + shippingCharge;
+  const checkoutMessage = encodeURIComponent(
+    `Hi! I’d like to order:\n${cart.map((item) => `${item.quantity} × ${item.name} — ₹${getProductTotalPrice(item, item.quantity)}`).join("\n")}\n\nSubtotal: ₹${cartTotal}\nShipping: ${shippingCharge === 0 ? "Free" : `₹${shippingCharge}`}\nTotal: ₹${orderTotal}`,
+  );
 
   return (
     <main>
@@ -105,7 +121,16 @@ export default function CartPage() {
               <h2>Order summary</h2>
               <div><span>Items</span><strong>{cart.reduce((count, item) => count + item.quantity, 0)}</strong></div>
               <div className="cart-page-subtotal"><span>Subtotal</span><strong>₹{cartTotal}</strong></div>
-              <p>Shipping and any customisation details can be confirmed on WhatsApp.</p>
+              <div><span>Shipping</span><strong>{shippingCharge === 0 ? "Free" : `₹${shippingCharge}`}</strong></div>
+              <div className="cart-page-total"><span>Total</span><strong>₹{orderTotal}</strong></div>
+              {cartTotal < MINIMUM_ORDER_VALUE && (
+                <p className="cart-page-minimum-order" role="status">
+                  Minimum order value is ₹{MINIMUM_ORDER_VALUE}. You can still place your order on WhatsApp.
+                </p>
+              )}
+              {cartTotal >= MINIMUM_ORDER_VALUE && cartTotal < FREE_SHIPPING_THRESHOLD && (
+                <p>Free shipping on orders of ₹{FREE_SHIPPING_THRESHOLD} or more.</p>
+              )}
               <a className="cart-checkout" href={`https://wa.me/9040710818?text=${checkoutMessage}`}>
                 Place order on WhatsApp →
               </a>

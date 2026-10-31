@@ -243,7 +243,9 @@ body {
 .cart-page-summary h2 { margin: 0 0 18px; color: #3e4320; font: 700 18px 'Libre Baskerville', serif; }
 .cart-page-summary>div { display: flex; justify-content: space-between; gap: 12px; margin: 12px 0; color: #625044; font: 13px 'DM Sans', sans-serif; }
 .cart-page-summary .cart-page-subtotal { padding-top: 13px; border-top: 1px solid #eadfca; color: #3e4320; font-size: 15px; }
+.cart-page-summary .cart-page-total { padding-top: 13px; border-top: 1px solid #eadfca; color: #3e4320; font-size: 15px; font-weight: 700; }
 .cart-page-summary>p { margin: 16px 0; color: #8d6d5c; font: 12px/1.6 'DM Sans', sans-serif; }
+.cart-page-summary>.cart-page-minimum-order { color: #9a3e2f; }
 .cart-page-summary .cart-checkout { border-radius: 4px; }
 .cart-page-summary .cart-page-continue { display: flex; margin-top: 10px; }
 .search-box {
