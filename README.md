@@ -38,5 +38,5 @@ npm run start
 This project is ready to be uploaded to GitHub and connected to Vercel for public hosting.
 
 git add .
-git commit -m "Banner image changes and Product addition"
+git commit -m "Key Chain added"
 git push origin main
