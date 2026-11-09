@@ -38,5 +38,5 @@ npm run start
 This project is ready to be uploaded to GitHub and connected to Vercel for public hosting.
 
 git add .
-git commit -m "Key Chain added"
+git commit -m "Toran Added"
 git push origin main
