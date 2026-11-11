@@ -50,7 +50,6 @@ export default function Home() {
 		"strawberry-pop-bag-charm",
 		"berry-sweet-key-chain",
 	];
-	const mobileOnlyProductIds = ["daisy-tassel-curtain-tiebacks", "strawberry-pop-bag-charm"];
 	const visibleProducts = products
 		.filter((product) => featuredProductIds.includes(product.id))
 		.filter((product) => product.name.toLowerCase().includes(query.toLowerCase()));
@@ -131,7 +130,7 @@ export default function Home() {
 									{visibleProducts.map((product) => {
 										const item = cart.find((cartItem) => cartItem.name === product.name);
 										return (
-											<article className={!query.trim() && mobileOnlyProductIds.includes(product.id) ? "product mobile-only-product" : "product"} id={product.categoryAnchor} key={product.name}>
+											<article className="product" id={product.categoryAnchor} key={product.name}>
 											<a className="product-card-image-link" href={`/product/${product.id}`} aria-label={`View ${product.name}`}>
 												<img src={product.image} alt={product.name} />
 											</a>
