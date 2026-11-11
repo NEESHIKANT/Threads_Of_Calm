@@ -45,9 +45,12 @@ export default function Home() {
 		"blossom-ring-wall-hanging",
 		"daisy-bloom-crochet-pot",
 		"sunshine-hug-curtain-tiebacks",
+		"daisy-tassel-curtain-tiebacks",
 		"ivory-blossom-bag-charm",
+		"strawberry-pop-bag-charm",
 		"berry-sweet-key-chain",
 	];
+	const mobileOnlyProductIds = ["daisy-tassel-curtain-tiebacks", "strawberry-pop-bag-charm"];
 	const visibleProducts = products
 		.filter((product) => featuredProductIds.includes(product.id))
 		.filter((product) => product.name.toLowerCase().includes(query.toLowerCase()));
@@ -60,6 +63,14 @@ export default function Home() {
 			return items
 				.map((item) => item.id === product.id ? { ...item, ...product, quantity: item.quantity + change } : item)
 				.filter((item) => item.quantity > 0);
+		});
+	};
+	const scrollCollection = (direction: "previous" | "next") => {
+		const collectionGrid = document.getElementById("collection-products");
+		if (!collectionGrid) return;
+		collectionGrid.scrollBy({
+			left: collectionGrid.clientWidth * (direction === "next" ? 1 : -1) * 0.8,
+			behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
 		});
 	};
 	const inquiryMessage = encodeURIComponent("Hi Sandhya, I want to know more about your products and pricing. Can you please help me?");
@@ -108,7 +119,58 @@ export default function Home() {
 
 			<section className="hero" id="home"><div className="hero-copy"><p className="eyebrow">HANDCRAFTED CROCHET CREATIONS</p><h1>Handmade<br />Things for a<br /><em>Happier Everyday</em> <span>〰</span></h1><p className="intro">Crochet gifts, décor and accessories<br />made with love, one stitch at a time.</p><a className="shop-btn" href="#collection">Shop Our Collection &nbsp; →</a><div className="promises"><span className="promise-item"><img src={handmadeLove.src} alt="Handmade with Love" /><small>Handmade<br />with Love</small></span><span className="promise-item"><img src={perfectForGifting.src} alt="Perfect for gifting" /><small>Perfect<br />for Gifting</small></span><span className="promise-item"><img src={panIndiaShipping.src} alt="Pan India Shipping" /><small>Pan India<br />Shipping</small></span><span className="promise-item"><img src={favouriteColours.src} alt="Made in your favourite Colours" /><small>Made in Your <br />Favourite Colours!</small></span><span className="promise-item"><img src={bulkOrders.src} alt="Bulk Orders Bigger Savings" /><small>Bulk Orders,<br />Bigger Savings!</small></span></div></div><div className="hero-photo leaves-photo"><img src="/product_images/banner.png" alt="Threads of Calm crochet banner" /></div></section>
 
-			<section className="collection" id="collection"><div className="section-heading"><div><h2>Our Collection <span>〰</span></h2><p>Thoughtfully handcrafted crochet products, perfect for gifting and everyday joy.</p></div><a href="/shop">View All Products &nbsp; →</a></div><div className="product-grid">{visibleProducts.map((product) => { const item = cart.find((cartItem) => cartItem.name === product.name); return <article className="product" id={product.categoryAnchor} key={product.name}><a className="product-card-image-link" href={`/product/${product.id}`} aria-label={`View ${product.name}`}><img src={product.image} alt={product.name} /></a><h3><a href={`/product/${product.id}`}>{product.name}</a></h3><strong>{product.price}</strong>{(() => { if (product.bundleOptions && !item) { const showBundleOptions = bundleOpenProduct === product.name; return <><button className="product-order" type="button" onClick={() => setBundleOpenProduct((current) => current === product.name ? null : product.name)}>🛒 &nbsp; Add to Cart</button>{showBundleOptions && <div className="product-bundle-options"><button className="product-bundle-option" type="button" onClick={() => { setBundleOpenProduct(null); changeQuantity(product, 1); }}>Buy 1 · {product.price}</button>{product.bundleOptions.filter((option) => option.quantity !== 1).map((option) => <button className="product-bundle-option" key={`${product.name}-${option.label}`} onClick={() => { setBundleOpenProduct(null); changeQuantity(product, option.quantity); }}>{option.label} · {option.price}</button>)}</div>}</>;} return item ? <div className="quantity-control product-quantity"><button aria-label={`Remove one ${product.name}`} onClick={() => changeQuantity(product, -1)}>−</button><span>{item.quantity}</span><button aria-label={`Add one ${product.name}`} onClick={() => changeQuantity(product, 1)}>+</button></div> : <button onClick={() => changeQuantity(product, 1)}>🛒 &nbsp; Add to Cart</button>; })()}</article>; })}</div>{visibleProducts.length === 0 && <p className="empty-search">No handmade pieces match that search.</p>}</section>
+						<section className="collection" id="collection">
+							<div className="section-heading">
+								<div>
+									<h2>Our Collection <span>〰</span></h2>
+									<p>Thoughtfully handcrafted crochet products, perfect for gifting and everyday joy.</p>
+								</div>
+							</div>
+							<div className="collection-carousel">
+								<div className="product-grid" id="collection-products">
+									{visibleProducts.map((product) => {
+										const item = cart.find((cartItem) => cartItem.name === product.name);
+										return (
+											<article className={!query.trim() && mobileOnlyProductIds.includes(product.id) ? "product mobile-only-product" : "product"} id={product.categoryAnchor} key={product.name}>
+											<a className="product-card-image-link" href={`/product/${product.id}`} aria-label={`View ${product.name}`}>
+												<img src={product.image} alt={product.name} />
+											</a>
+											<h3><a href={`/product/${product.id}`}>{product.name}</a></h3>
+											<strong>{product.price}</strong>
+											{(() => {
+												if (product.bundleOptions && !item) {
+													const showBundleOptions = bundleOpenProduct === product.name;
+													return <>
+														<button className="product-order" type="button" onClick={() => setBundleOpenProduct((current) => current === product.name ? null : product.name)}>🛒 &nbsp; Add to Cart</button>
+														{showBundleOptions && <div className="product-bundle-options">
+															<button className="product-bundle-option" type="button" onClick={() => { setBundleOpenProduct(null); changeQuantity(product, 1); }}>Buy 1 · {product.price}</button>
+															{product.bundleOptions.filter((option) => option.quantity !== 1).map((option) => <button className="product-bundle-option" key={`${product.name}-${option.label}`} onClick={() => { setBundleOpenProduct(null); changeQuantity(product, option.quantity); }}>{option.label} · {option.price}</button>)}
+														</div>}
+													</>;
+												}
+												return item
+													? <div className="quantity-control product-quantity">
+														<button aria-label={`Remove one ${product.name}`} onClick={() => changeQuantity(product, -1)}>−</button>
+														<span>{item.quantity}</span>
+														<button aria-label={`Add one ${product.name}`} onClick={() => changeQuantity(product, 1)}>+</button>
+													</div>
+													: <button onClick={() => changeQuantity(product, 1)}>🛒 &nbsp; Add to Cart</button>;
+											})()}
+										</article>
+									);
+									})}
+									<a className="view-all-products-card" href="/shop">
+										<span>Discover every handmade piece</span>
+										<strong>View All Products <span aria-hidden="true">→</span></strong>
+									</a>
+								</div>
+								<div className="collection-slider-controls" aria-label="Collection carousel controls">
+									<button type="button" aria-label="Previous products" aria-controls="collection-products" onClick={() => scrollCollection("previous")}>←</button>
+									<button type="button" aria-label="Next products" aria-controls="collection-products" onClick={() => scrollCollection("next")}>→</button>
+								</div>
+							</div>
+							{visibleProducts.length === 0 && <p className="empty-search">No handmade pieces match that search.</p>}
+						</section>
 
 			<section className="contact-section" id="contact">
 				<p className="eyebrow">WE’D LOVE TO HEAR FROM YOU</p>
