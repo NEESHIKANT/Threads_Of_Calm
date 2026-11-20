@@ -28,7 +28,7 @@ npm run start
 
 ## Record WhatsApp checkout attempts in Google Sheets
 
-The cart records an order when a customer clicks **Place order on WhatsApp**. This records a checkout attempt, not confirmation that the customer sent the WhatsApp message or completed the purchase.
+The cart optionally asks for the customer's name, then records it with the checkout when they click **Place order on WhatsApp**. This records a checkout attempt, not confirmation that the customer sent the WhatsApp message or completed the purchase. If provided, the name is included in the prefilled WhatsApp message.
 
 1. Open the order spreadsheet and select **Extensions → Apps Script**.
 2. Replace the editor contents with [`google-apps-script/Code.gs`](./google-apps-script/Code.gs), then save the project.
@@ -38,7 +38,8 @@ The cart records an order when a customer clicks **Place order on WhatsApp**. Th
    - `GOOGLE_SHEETS_WEB_APP_URL`: the deployed Apps Script `/exec` URL.
    - `GOOGLE_SHEETS_WEBHOOK_SECRET`: the exact same secret from step 3.
    Use [`.env.example`](./.env.example) as a template. Never put the secret in client-side code or commit it.
-6. Restart/redeploy the website. The first sheet tab must have the headers `Date/time`, `Items`, `Subtotal`, `Shipping`, `Total`, `Status` in its first row. If the tab is empty, the script adds them automatically.
+6. If updating an existing Apps Script deployment, go to **Deploy → Manage deployments**, click the pencil icon, select **New version**, and deploy the update.
+7. Restart/redeploy the website. The first sheet tab must have the headers `Date/time`, `Name`, `Items`, `Subtotal`, `Shipping`, `Total`, `Status` in its first row. If the tab already has the previous headers, the script inserts the `Name` column after `Date/time` without removing the existing order data. If the tab is empty, it adds all headers automatically.
 
 ## Project structure
 
@@ -52,5 +53,5 @@ The cart records an order when a customer clicks **Place order on WhatsApp**. Th
 This project is ready to be uploaded to GitHub and connected to Vercel for public hosting.
 
 git add .
-git commit -m "Excel Log maintain for website order"
+git commit -m "Excel Log maintain for website order updation"
 git push origin main

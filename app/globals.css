@@ -314,6 +314,10 @@ body {
 .cart-page-summary .cart-page-total { padding-top: 13px; border-top: 1px solid #eadfca; color: #3e4320; font-size: 15px; font-weight: 700; }
 .cart-page-summary>p { margin: 16px 0; color: #8d6d5c; font: 12px/1.6 'DM Sans', sans-serif; }
 .cart-page-summary>.cart-page-minimum-order { color: #9a3e2f; }
+.cart-customer-name { display: flex; flex-direction: column; gap: 7px; margin: 16px 0 0; color: #49382b; font: 13px 'DM Sans', sans-serif; }
+.cart-customer-name input { width: 100%; padding: 10px 12px; border: 1px solid #ddcdb5; border-radius: 4px; background: #fff; color: var(--ink); font: 14px 'DM Sans', sans-serif; }
+.cart-customer-name input:focus { outline: 2px solid #536627; outline-offset: 1px; }
+.cart-page-summary .cart-customer-name-note { margin: 7px 0 12px; font-size: 11px; }
 .cart-page-summary .cart-checkout { border-radius: 4px; }
 .cart-page-summary .cart-checkout-status { color: #536627; overflow-wrap: anywhere; }
 .cart-page-summary .cart-page-continue { display: flex; margin-top: 10px; }

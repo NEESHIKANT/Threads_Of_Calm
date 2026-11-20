@@ -18,6 +18,7 @@ export default function CartPage() {
   const [hasHydratedCart, setHasHydratedCart] = useState(false);
   const [isRecordingCheckout, setIsRecordingCheckout] = useState(false);
   const [checkoutStatus, setCheckoutStatus] = useState<string | null>(null);
+  const [customerName, setCustomerName] = useState("");
 
   useEffect(() => {
     try {
@@ -60,9 +61,9 @@ export default function CartPage() {
     );
   const orderTotal = cartTotal + shippingCharge;
   const checkoutMessage = encodeURIComponent(
-    `Hi! I’d like to order:\n${cart.map((item) => `${item.quantity} × ${item.name} — ₹${getProductTotalPrice(item, item.quantity)}`).join("\n")}\n\nSubtotal: ₹${cartTotal}\nShipping: ${shippingCharge === 0 ? "Free" : `₹${shippingCharge}`}\nTotal: ₹${orderTotal}`,
+      `${customerName.trim() ? `Hi! My name is ${customerName.trim()}. I’d like to order:` : "Hi! I’d like to order:"}\n${cart.map((item) => `${item.quantity} × ${item.name} — ₹${getProductTotalPrice(item, item.quantity)}`).join("\n")}\n\nSubtotal: ₹${cartTotal}\nShipping: ${shippingCharge === 0 ? "Free" : `₹${shippingCharge}`}\nTotal: ₹${orderTotal}`,
   );
-  const recordCheckout = async () => {
+  const recordCheckout = async (name: string) => {
     setIsRecordingCheckout(true);
     setCheckoutStatus("Saving your checkout to the order sheet...");
 
@@ -70,7 +71,7 @@ export default function CartPage() {
       const response = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items: cart.map(({ id, quantity }) => ({ id, quantity })) }),
+        body: JSON.stringify({ name, items: cart.map(({ id, quantity }) => ({ id, quantity })) }),
       });
       const result = await response.json();
 
@@ -157,6 +158,21 @@ export default function CartPage() {
               {cartTotal >= MINIMUM_ORDER_VALUE && cartTotal < FREE_SHIPPING_THRESHOLD && (
                 <p>Free shipping on orders of ₹{FREE_SHIPPING_THRESHOLD} or more.</p>
               )}
+              <label className="cart-customer-name">
+                Your name
+                <input
+                  type="text"
+                  name="customerName"
+                  autoComplete="name"
+                  maxLength={100}
+                  value={customerName}
+                  onChange={(event) => setCustomerName(event.target.value)}
+                  aria-describedby="cart-customer-name-note"
+                />
+              </label>
+              <p id="cart-customer-name-note" className="cart-customer-name-note">
+                If provided, your name will be saved with this checkout and included in your WhatsApp message.
+              </p>
               <a
                 className="cart-checkout"
                 href={`https://wa.me/9040710818?text=${checkoutMessage}`}
@@ -167,7 +183,8 @@ export default function CartPage() {
                     event.preventDefault();
                     return;
                   }
-                  void recordCheckout();
+                  const name = customerName.trim().replace(/\s+/g, " ");
+                  void recordCheckout(name);
                 }}
               >
                 Place order on WhatsApp →

@@ -32,11 +32,24 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "The order details were not valid JSON." }, { status: 400 });
   }
 
-  if (!payload || typeof payload !== "object" || !Array.isArray((payload as Record<string, unknown>).items)) {
+  if (!payload || typeof payload !== "object") {
     return NextResponse.json({ error: "Order items are required." }, { status: 400 });
   }
 
-  const requestedItems: unknown[] = (payload as { items: unknown[] }).items;
+  const orderData = payload as Record<string, unknown>;
+  if (orderData.name !== undefined && typeof orderData.name !== "string") {
+    return NextResponse.json({ error: "The customer name must be text." }, { status: 400 });
+  }
+  const rawCustomerName = typeof orderData.name === "string" ? orderData.name.trim() : "";
+  if (rawCustomerName.length > 100) {
+    return NextResponse.json({ error: "The customer name must be no more than 100 characters." }, { status: 400 });
+  }
+  if (!Array.isArray(orderData.items)) {
+    return NextResponse.json({ error: "Order items are required." }, { status: 400 });
+  }
+
+  const customerName = rawCustomerName.replace(/\s+/g, " ");
+  const requestedItems: unknown[] = orderData.items;
   if (requestedItems.length === 0 || requestedItems.length > MAX_CART_ITEMS || !requestedItems.every(isCheckoutItem)) {
     return NextResponse.json({ error: "The order must contain between 1 and 50 valid items." }, { status: 400 });
   }
@@ -65,6 +78,7 @@ export async function POST(request: Request) {
       * (MAXIMUM_SHIPPING_CHARGE - MINIMUM_SHIPPING_CHARGE),
     );
   const order = {
+    name: customerName,
     items: validItems.map(({ product, quantity }) => ({
       description: `${quantity} × ${product.name} — ₹${getProductTotalPrice(product, quantity)}`,
       quantity,
