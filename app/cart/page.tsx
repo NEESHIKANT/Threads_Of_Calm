@@ -9,7 +9,7 @@ import { getProductTotalPrice } from "../data/products/pricing";
 type CartItem = Product & { quantity: number };
 
 const MINIMUM_ORDER_VALUE = 400;
-const FREE_SHIPPING_THRESHOLD = 750;
+const FREE_SHIPPING_THRESHOLD = 850;
 const MINIMUM_SHIPPING_CHARGE = 80;
 const MAXIMUM_SHIPPING_CHARGE = 100;
 

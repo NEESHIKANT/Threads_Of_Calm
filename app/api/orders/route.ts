@@ -3,7 +3,7 @@ import { products } from "../../data/products";
 import { getProductTotalPrice } from "../../data/products/pricing";
 
 const MINIMUM_ORDER_VALUE = 400;
-const FREE_SHIPPING_THRESHOLD = 750;
+const FREE_SHIPPING_THRESHOLD = 850;
 const MINIMUM_SHIPPING_CHARGE = 80;
 const MAXIMUM_SHIPPING_CHARGE = 100;
 const MAX_CART_ITEMS = 50;

@@ -53,5 +53,5 @@ The cart optionally asks for the customer's name, then records it with the check
 This project is ready to be uploaded to GitHub and connected to Vercel for public hosting.
 
 git add .
-git commit -m "Excel Log maintain for website order updation"
+git commit -m "Shipping Price Update"
 git push origin main
