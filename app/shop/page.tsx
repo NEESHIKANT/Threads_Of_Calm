@@ -162,7 +162,7 @@ function ShopPageContent() {
           {filteredProducts.length === 0 ? (
             <p className="empty-search">No handmade pieces are available in this category yet.</p>
           ) : (
-            filteredProducts.map((product) => {
+            filteredProducts.map((product, index) => {
               const productSlides = getProductSlides(product);
               const currentSlideIndex = productImageIndexes[product.id] ?? 0;
               const currentSlide = productSlides[currentSlideIndex] ?? productSlides[0];
@@ -225,6 +225,7 @@ function ShopPageContent() {
                         alt={product.name}
                         width={800}
                         height={800}
+                        loading={index === 0 ? "eager" : "lazy"}
                         sizes="(max-width: 600px) 94vw, (max-width: 900px) 46vw, 31vw"
                       />
                     </Link>

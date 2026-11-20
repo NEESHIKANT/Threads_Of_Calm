@@ -20,7 +20,7 @@ export const carCharmProducts: Product[] = [
     description: "A bold sunflower in golden yellow with a rich chocolate-brown centre, finished with a matching tassel. 💛",
   },
   {
-    id: "Sunny Side Up Car Charm",
+    id: "sunny-side-up-car-charm",
     name: "Sunny Side Up Car Charm",
     price: "₹299",
     image: "/product_images/car-charms/Sunny Side Up Car Charm.png",

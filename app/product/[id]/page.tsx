@@ -11,7 +11,25 @@ type CartItem = Product & { quantity: number };
 
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const product = products.find((item) => item.id === id);
+  const normalizedRouteId = (() => {
+    try {
+      return decodeURIComponent(id)
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "");
+    } catch {
+      return id.trim().toLowerCase();
+    }
+  })();
+  const product = products.find((item) => {
+    const normalizedItemId = item.id
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
+    return item.id === id || normalizedItemId === normalizedRouteId;
+  });
   const [imageIndex, setImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [addedQuantity, setAddedQuantity] = useState(0);

@@ -20,7 +20,7 @@ export const keyChainProducts: Product[] = [
     description: "A sweet crochet bow in a soft lavender hue, carefully handcrafted with neat, precise stitches. 💜",
   },
   {
-    id: "Wiggle Buddy Keychain",
+    id: "wiggle-buddy-keychain",
     name: "Wiggle Buddy Keychain",
     price: "₹199",
     image: "/product_images/key-chains/Wiggle Buddy Keychain.png",

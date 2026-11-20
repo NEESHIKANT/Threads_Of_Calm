@@ -112,7 +112,7 @@ export const homeDecorProducts: Product[] = [
     description: "A beautiful handmade crochet door toran featuring vibrant sunflower motifs, delicate pearl strings, and matching tassels. Add a cheerful, handcrafted touch to your entrance and make your home feel extra welcoming. 💛",
   },
   {
-    id: "Shubh Labh Crochet Hangings",
+    id: "shubh-labh-crochet-hangings",
     name: "Shubh Labh Crochet Hangings\n(Set of Two)",
     price: "₹699",
     image: "/product_images/home-decor/Shubh Labh Crochet Hangings.png",
@@ -121,7 +121,7 @@ export const homeDecorProducts: Product[] = [
     description: "A beautiful handmade crochet Shubh Labh set featuring vibrant yellow flowers, traditional Shubh Labh motifs, delicate pearl strings, and matching tassels. Perfect for decorating your entrance and adding an auspicious, festive touch to your home. 💛",
   },
   {
-    id: "Shubh Labh Crochet Wall Hanging",
+    id: "shubh-labh-crochet-wall-hanging",
     name: "Shubh Labh Crochet Wall Hanging",
     price: "₹599",
     image: "/product_images/home-decor/Shubh Labh Crochet Wall Hanging.png",

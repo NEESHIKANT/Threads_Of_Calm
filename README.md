@@ -38,5 +38,5 @@ npm run start
 This project is ready to be uploaded to GitHub and connected to Vercel for public hosting.
 
 git add .
-git commit -m "UI changes for your collections rectification"
+git commit -m "Updated the Not opening products"
 git push origin main
