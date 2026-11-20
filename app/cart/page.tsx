@@ -16,6 +16,8 @@ const MAXIMUM_SHIPPING_CHARGE = 100;
 export default function CartPage() {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [hasHydratedCart, setHasHydratedCart] = useState(false);
+  const [isRecordingCheckout, setIsRecordingCheckout] = useState(false);
+  const [checkoutStatus, setCheckoutStatus] = useState<string | null>(null);
 
   useEffect(() => {
     try {
@@ -60,6 +62,30 @@ export default function CartPage() {
   const checkoutMessage = encodeURIComponent(
     `Hi! I’d like to order:\n${cart.map((item) => `${item.quantity} × ${item.name} — ₹${getProductTotalPrice(item, item.quantity)}`).join("\n")}\n\nSubtotal: ₹${cartTotal}\nShipping: ${shippingCharge === 0 ? "Free" : `₹${shippingCharge}`}\nTotal: ₹${orderTotal}`,
   );
+  const recordCheckout = async () => {
+    setIsRecordingCheckout(true);
+    setCheckoutStatus("Saving your checkout to the order sheet...");
+
+    try {
+      const response = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items: cart.map(({ id, quantity }) => ({ id, quantity })) }),
+      });
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(typeof result.error === "string" ? result.error : "The order sheet could not be updated.");
+      }
+
+      setCheckoutStatus("Checkout saved to the order sheet. WhatsApp has opened in a new tab; send the message there to place your order.");
+    } catch (error) {
+      const reason = error instanceof Error ? error.message : "The order sheet could not be updated.";
+      setCheckoutStatus(`Could not save this checkout to the order sheet: ${reason} WhatsApp is still open; please send your order there.`);
+    } finally {
+      setIsRecordingCheckout(false);
+    }
+  };
 
   return (
     <main>
@@ -131,9 +157,22 @@ export default function CartPage() {
               {cartTotal >= MINIMUM_ORDER_VALUE && cartTotal < FREE_SHIPPING_THRESHOLD && (
                 <p>Free shipping on orders of ₹{FREE_SHIPPING_THRESHOLD} or more.</p>
               )}
-              <a className="cart-checkout" href={`https://wa.me/9040710818?text=${checkoutMessage}`}>
+              <a
+                className="cart-checkout"
+                href={`https://wa.me/9040710818?text=${checkoutMessage}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(event) => {
+                  if (isRecordingCheckout) {
+                    event.preventDefault();
+                    return;
+                  }
+                  void recordCheckout();
+                }}
+              >
                 Place order on WhatsApp →
               </a>
+              {checkoutStatus && <p className="cart-checkout-status" role="status">{checkoutStatus}</p>}
               <Link className="cart-page-continue" href="/shop">Continue shopping</Link>
             </aside>
           </div>

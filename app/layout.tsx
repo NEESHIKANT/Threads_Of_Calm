@@ -1,4 +1,5 @@
 import "./globals.css";
+// import ChristmasSleigh from "./components/ChristmasSleigh";
 
 export const metadata = {
   title: "Threads of Calm",
@@ -14,7 +15,13 @@ export const viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" data-scroll-behavior="smooth">
-      <body>{children}</body>
+      <body>
+        {children}
+        {/* <div className="christmas-snow christmas-snow--light" aria-hidden="true" />
+        <div className="christmas-snow christmas-snow--steady" aria-hidden="true" />
+        <div className="christmas-snow christmas-snow--close" aria-hidden="true" />
+        <ChristmasSleigh /> */}
+      </body>
     </html>
   );
 }

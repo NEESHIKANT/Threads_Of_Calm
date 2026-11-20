@@ -17,6 +17,72 @@ body {
   font-family: 'DM Sans', sans-serif;
 }
 
+/* Christman Theme From Here */
+
+/* .christmas-snow {
+  position: fixed;
+  z-index: 50;
+  inset: -100vh 0 0;
+  pointer-events: none;
+  background-repeat: repeat;
+  will-change: background-position;
+}
+.christmas-snow--light {
+  opacity: .48;
+  background-image:
+    radial-gradient(2px 2px at 24px 36px, #fff 98%, transparent),
+    radial-gradient(2px 2px at 104px 92px, #fff 98%, transparent),
+    radial-gradient(1.5px 1.5px at 166px 142px, #fff 98%, transparent);
+  background-size: 210px 190px;
+  animation: christmas-snowfall 18s linear infinite;
+}
+.christmas-snow--steady {
+  opacity: .58;
+  background-image:
+    radial-gradient(3px 3px at 48px 66px, #fff 98%, transparent),
+    radial-gradient(2px 2px at 146px 18px, #fff 98%, transparent),
+    radial-gradient(2px 2px at 214px 126px, #fff 98%, transparent);
+  background-size: 270px 230px;
+  animation: christmas-snowfall 25s linear infinite;
+}
+.christmas-snow--close {
+  opacity: .7;
+  background-image:
+    radial-gradient(4px 4px at 70px 40px, #fff 98%, transparent),
+    radial-gradient(3px 3px at 190px 160px, #fff 98%, transparent);
+  background-size: 320px 280px;
+  animation: christmas-snowfall 32s linear infinite;
+}
+.christmas-flyby {
+  position: fixed;
+  z-index: 51;
+  top: 0;
+  left: 0;
+  width: min(180px, 48vw);
+  pointer-events: none;
+  filter: drop-shadow(0 5px 5px rgba(53, 37, 28, .2));
+  animation: christmas-flyby 8s cubic-bezier(.45, 0, .55, 1) 1 both;
+}
+.christmas-flyby img { display: block; width: 100%; height: auto; transform: rotate(-45deg) scaleX(-1); }
+@keyframes christmas-snowfall {
+  from { background-position: 0 -100vh; }
+  to { background-position: 35px 100vh; }
+}
+@keyframes christmas-flyby {
+  from { transform: translate(-120%, 100vh); }
+  to { transform: translate(100vw, -120%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .christmas-snow, .christmas-flyby { animation: none; }
+  .christmas-snow { inset: 0; }
+  .christmas-flyby { display: none; }
+}
+@media (max-width: 600px) {
+  .christmas-flyby { width: min(145px, 42vw); }
+} */
+
+/* Till here */
+
 .announcement {
   height: 27px;
   background: #536522;
@@ -249,6 +315,7 @@ body {
 .cart-page-summary>p { margin: 16px 0; color: #8d6d5c; font: 12px/1.6 'DM Sans', sans-serif; }
 .cart-page-summary>.cart-page-minimum-order { color: #9a3e2f; }
 .cart-page-summary .cart-checkout { border-radius: 4px; }
+.cart-page-summary .cart-checkout-status { color: #536627; overflow-wrap: anywhere; }
 .cart-page-summary .cart-page-continue { display: flex; margin-top: 10px; }
 .search-box {
   display: flex;
